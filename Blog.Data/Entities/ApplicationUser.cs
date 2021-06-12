@@ -9,5 +9,8 @@ namespace Blog.Data.Entities
 {
     public class ApplicationUser : IdentityUser<int>
     {
+        public int? AvatarId { get; set; }
+
+        public Avatar Avatar { get; set; }
     }
 }

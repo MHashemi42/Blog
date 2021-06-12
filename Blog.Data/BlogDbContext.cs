@@ -16,5 +16,20 @@ namespace Blog.Data
         {
 
         }
+
+        public DbSet<Avatar> Avatars { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<Avatar>(avatar =>
+            {
+                avatar.HasKey(a => a.AvatarId);
+
+                avatar.Property(a => a.ImageTitle).IsRequired();
+                avatar.Property(a => a.ImageData).IsRequired();
+            });
+        }
     }
 }
