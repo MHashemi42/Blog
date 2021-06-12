@@ -304,6 +304,7 @@ namespace Blog.Web.Controllers
         public IActionResult ResetPasswordConfirmation() => View();
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> UploadAvatar(IFormFile avatar)
         {
             using var memoryStream = new MemoryStream();
