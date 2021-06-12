@@ -1,0 +1,38 @@
+﻿@model ResendEmailConfirmationViewModel
+@inject IOptions<ReCaptchaSettings> ReCaptcha
+
+<h1>تایید کردن آدرس ایمیل</h1>
+<form method="post" id="resend-email-confirmation-form">
+    <div asp-validation-summary="ModelOnly" class="text-danger">
+        <span>خطا:</span>
+    </div>
+    <input asp-for="ReCaptchaToken" type="hidden" />
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email"></span>
+    </div>
+    <button class="g-recaptcha btn btn-primary"
+            data-sitekey="@ReCaptcha.Value.SiteKey"
+            data-callback='onSubmit'
+            data-action='submit'>
+        ارسال
+    </button>
+</form>
+
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+    <script>
+        function onSubmit(token) {
+            $("#ReCaptchaToken").val(token);
+            var form = $("#resend-email-confirmation-form");
+            if (form.valid()) {
+                form.submit();
+            }
+        }
+    </script>
+}

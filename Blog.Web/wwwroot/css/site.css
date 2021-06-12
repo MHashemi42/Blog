@@ -1,0 +1,9 @@
+﻿.field-validation-error {
+    color: #dc3545;
+    font-size: smaller;
+}
+
+.direction-ltr
+{
+    direction: ltr;
+}
