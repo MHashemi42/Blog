@@ -11,5 +11,8 @@ namespace Blog.Data.Entities
         public int AvatarId { get; set; }
         public string ImageTitle { get; set; }
         public byte[] ImageData { get; set; }
+        public int UserId { get; set; }
+
+        public ApplicationUser User { get; set; }
     }
 }

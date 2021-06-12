@@ -29,6 +29,19 @@ namespace Blog.Data
 
                 avatar.Property(a => a.ImageTitle).IsRequired();
                 avatar.Property(a => a.ImageData).IsRequired();
+
+                avatar.HasOne(a => a.User)
+                      .WithOne(u => u.Avatar)
+                      .HasForeignKey<ApplicationUser>(u => u.AvatarId)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            builder.Entity<ApplicationUser>(user =>
+            {
+                user.HasOne(u => u.Avatar)
+                    .WithOne(a => a.User)
+                    .HasForeignKey<Avatar>(a => a.UserId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
         }
     }
