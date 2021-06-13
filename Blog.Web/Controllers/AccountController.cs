@@ -38,7 +38,24 @@ namespace Blog.Web.Controllers
         }
 
         [Authorize]
-        public IActionResult Profile() => View();
+        public async Task<IActionResult> Profile()
+        {
+            //TODO: Get user info from cookie
+            var user = await _userManager.Users
+                        .Include(u => u.Avatar)
+                        .SingleOrDefaultAsync(u => u.NormalizedUserName == User.Identity.Name.ToUpper());
+
+            var viewModel = new ProfileViewModel
+            {
+                Bio = user.Bio,
+                BirthDay = user.BirthDay,
+                FriendlyName = user.FriendlyName,
+                Location = user.Location,
+                Username = user.UserName,
+                Email = user.Email
+            };
+            return View(viewModel);
+        }
 
         public IActionResult Register() => View();
 
