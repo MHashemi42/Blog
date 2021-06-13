@@ -12,7 +12,7 @@ namespace Blog.Web.ViewModels
         [Required]
         [MinLength(3, ErrorMessage = "{0} حداقل باید {1} حرف باشد.")]
         [Display(Name = "نام کاربری")]
-        public string Username { get; init; }
+        public string Username { get; set; }
 
         [Required(ErrorMessage = "لطفا {0} خود را وارد نمائید.")]
         [MinLength(3, ErrorMessage = "{0} حداقل باید {1} حرف باشد.")]
@@ -22,7 +22,7 @@ namespace Blog.Web.ViewModels
         [Required]
         [EmailAddress]
         [Display(Name = "آدرس ایمیل")]
-        public string Email { get; init; }
+        public string Email { get; set; }
 
         [DataType(DataType.Date)]
         [Display(Name = "تاریخ تولد")]
@@ -33,5 +33,9 @@ namespace Blog.Web.ViewModels
 
         [Display(Name = "درباره من")]
         public string Bio { get; set; }
+
+        [Display(Name = "تصویر پروفایل")]
+        public IFormFile Avatar { get; set; }
+        public bool IsAvatarChanged { get; set; }
     }
 }
