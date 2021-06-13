@@ -14,6 +14,12 @@ namespace Blog.Web.ViewModels
         public string Username { get; set; }
 
         [Required(ErrorMessage = "لطفا {0} خود را وارد نمائید.")]
+        [MinLength(3, ErrorMessage = "{0} حداقل باید {1} حرف باشد.")]
+        [Display(Name = "نام مستعار")]
+        public string FriendlyName { get; set; }
+
+
+        [Required(ErrorMessage = "لطفا {0} خود را وارد نمائید.")]
         [EmailAddress(ErrorMessage = "{0} نامعتبر است.")]
         [Display(Name = "آدرس ایمیل")]
         public string Email { get; set; }
