@@ -36,6 +36,8 @@ namespace Blog.Web.ViewModels
 
         [Display(Name = "تصویر پروفایل")]
         public IFormFile Avatar { get; set; }
-        public bool IsAvatarChanged { get; set; }
+
+        [DataType(DataType.ImageUrl)]
+        public string AvatarDataUrl { get; set; }
     }
 }
