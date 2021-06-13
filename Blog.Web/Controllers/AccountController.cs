@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Security.Claims;
@@ -61,6 +62,7 @@ namespace Blog.Web.Controllers
             ApplicationUser newUser = new()
             {
                 UserName = registerViewModel.Username,
+                FriendlyName = registerViewModel.FriendlyName,
                 Email = registerViewModel.Email
             };
 
@@ -303,30 +305,6 @@ namespace Blog.Web.Controllers
         }
 
         public IActionResult ResetPasswordConfirmation() => View();
-
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> UploadAvatar(ProfileViewModel profileViewModel)
-        {
-            if (ModelState.IsValid is false)
-            {
-                return View(nameof(Profile));
-            }
-
-            var email = User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Email).Value;
-            var user = await _userManager.Users
-                    .Include(u => u.Avatar)
-                    .SingleAsync(u => u.NormalizedEmail == email.ToUpper());
-
-            user.Avatar.ImageTitle = profileViewModel.Avatar.FileName;
-            using var memoryStream = new MemoryStream();
-            await profileViewModel.Avatar.CopyToAsync(memoryStream);
-            user.Avatar.ImageData = memoryStream.ToArray();
-
-            await _userManager.UpdateAsync(user);
-            
-            return View(nameof(Profile));
-        }
     }
 
 }
