@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -305,13 +306,26 @@ namespace Blog.Web.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> UploadAvatar(IFormFile avatar)
+        public async Task<IActionResult> UploadAvatar(ProfileViewModel profileViewModel)
         {
-            using var memoryStream = new MemoryStream();
-            await avatar.CopyToAsync(memoryStream);
-            var avatarData = memoryStream.ToArray();
+            if (ModelState.IsValid is false)
+            {
+                return View(nameof(Profile));
+            }
 
-            return View("Profile");
+            var email = User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Email).Value;
+            var user = await _userManager.Users
+                    .Include(u => u.Avatar)
+                    .SingleAsync(u => u.NormalizedEmail == email.ToUpper());
+
+            user.Avatar.ImageTitle = profileViewModel.Avatar.FileName;
+            using var memoryStream = new MemoryStream();
+            await profileViewModel.Avatar.CopyToAsync(memoryStream);
+            user.Avatar.ImageData = memoryStream.ToArray();
+
+            await _userManager.UpdateAsync(user);
+            
+            return View(nameof(Profile));
         }
     }
 
