@@ -38,6 +38,11 @@ namespace Blog.Data
 
             builder.Entity<ApplicationUser>(user =>
             {
+                user.Property(u => u.FriendlyName).HasMaxLength(50);
+                user.Property(u => u.BirthDay).HasColumnType("date");
+                user.Property(u => u.Location).HasMaxLength(100);
+                user.Property(u => u.Bio).HasMaxLength(500);
+
                 user.HasOne(u => u.Avatar)
                     .WithOne(a => a.User)
                     .HasForeignKey<Avatar>(a => a.UserId)
