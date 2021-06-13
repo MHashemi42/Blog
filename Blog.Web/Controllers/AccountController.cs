@@ -66,6 +66,50 @@ namespace Blog.Web.Controllers
             return View(viewModel);
         }
 
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Profile(ProfileViewModel profileViewModel)
+        {
+            if (ModelState.IsValid is false)
+            {
+                return View();
+            }
+            
+            var user = await _userManager.Users
+                        .Include(u => u.Avatar)
+                        .SingleOrDefaultAsync(u => u.NormalizedUserName == User.Identity.Name.ToUpper());
+
+            user.FriendlyName = profileViewModel.FriendlyName;
+            user.BirthDay = profileViewModel.BirthDay;
+            user.Location = profileViewModel.Location;
+            user.Bio = profileViewModel.Bio;
+
+            if (profileViewModel.Avatar != null)
+            {
+                user.Avatar ??= new Avatar();
+                user.Avatar.ImageTitle = profileViewModel.Avatar.FileName;
+
+                using var ms = new MemoryStream();
+                await profileViewModel.Avatar.CopyToAsync(ms);
+                user.Avatar.ImageData = ms.ToArray();
+            }
+
+            await _userManager.UpdateAsync(user);
+
+            if (user.Avatar != null)
+            {
+                string imageBase64Data = Convert.ToBase64String(user.Avatar.ImageData);
+                string imageDataURL = string.Format("data:image/jpg;base64,{0}", imageBase64Data);
+                profileViewModel.AvatarDataUrl = imageDataURL;
+            }
+            else
+            {
+                profileViewModel.AvatarDataUrl = "https://www.dntips.ir/file/avatar?name=568994f5ee7e4776b250aa9a9815883e.jpg";
+            }
+
+            return View(profileViewModel);
+        }
+
         public IActionResult Register() => View();
 
         [HttpPost]
