@@ -2,7 +2,6 @@
 <h1>پروفایل</h1>
 <form method="post" enctype="multipart/form-data"
       class="needs-validation" novalidate>
-    <input hidden asp-for="IsAvatarChanged"/>
     <div class="form-group">
         <label asp-for="Username"></label>
         <input asp-for="Username" class="form-control" readonly />
@@ -34,6 +33,7 @@
         <span asp-validation-for="Bio"></span>
     </div>
     <h5>تصویر:</h5>
+    <img src="@Model.AvatarDataUrl" class="img-thumbnail"/>
     <div class="custom-file">
         <label asp-for="Avatar"></label>
         <input asp-for="Avatar" class="custom-file-input" />
@@ -46,11 +46,4 @@
 @section Scripts
 {
     <partial name="_ValidationScriptsPartial" />
-    <script>
-        $(document).ready(function () {
-            $("#Avatar").click(function () {
-                $("#IsAvatarChanged").attr('checked', true);
-            });
-        });
-    </script>
 }

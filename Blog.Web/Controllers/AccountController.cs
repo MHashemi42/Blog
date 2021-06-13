@@ -52,8 +52,17 @@ namespace Blog.Web.Controllers
                 FriendlyName = user.FriendlyName,
                 Location = user.Location,
                 Username = user.UserName,
-                Email = user.Email
+                Email = user.Email,
+                AvatarDataUrl = "https://www.dntips.ir/file/avatar?name=568994f5ee7e4776b250aa9a9815883e.jpg"
             };
+
+            if (user.Avatar != null)
+            {
+                string imageBase64Data = Convert.ToBase64String(user.Avatar.ImageData);
+                string imageDataURL = string.Format("data:image/jpg;base64,{0}", imageBase64Data);
+                viewModel.AvatarDataUrl = imageDataURL;
+            }
+
             return View(viewModel);
         }
 
