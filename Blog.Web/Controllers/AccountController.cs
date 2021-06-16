@@ -44,7 +44,7 @@ namespace Blog.Web.Controllers
                         .Include(u => u.Avatar)
                         .SingleOrDefaultAsync(u => u.NormalizedUserName == User.Identity.Name.ToUpper());
 
-            var viewModel = new ProfileViewModel
+            ProfileViewModel viewModel = new()
             {
                 Bio = user.Bio,
                 BirthDay = user.BirthDay,
@@ -55,7 +55,7 @@ namespace Blog.Web.Controllers
                 AvatarDataUrl = "https://www.dntips.ir/file/avatar?name=568994f5ee7e4776b250aa9a9815883e.jpg"
             };
 
-            if (user.Avatar != null)
+            if (user.Avatar is object)
             {
                 string imageBase64Data = Convert.ToBase64String(user.Avatar.ImageData);
                 string imageDataURL = string.Format("data:image/jpg;base64,{0}", imageBase64Data);
@@ -83,7 +83,7 @@ namespace Blog.Web.Controllers
             user.Location = profileViewModel.Location;
             user.Bio = profileViewModel.Bio;
 
-            if (profileViewModel.Avatar != null)
+            if (profileViewModel.Avatar is object)
             {
                 user.Avatar ??= new Avatar();
                 user.Avatar.ImageTitle = profileViewModel.Avatar.FileName;
@@ -95,7 +95,7 @@ namespace Blog.Web.Controllers
 
             await _userManager.UpdateAsync(user);
 
-            if (user.Avatar != null)
+            if (user.Avatar is object)
             {
                 string imageBase64Data = Convert.ToBase64String(user.Avatar.ImageData);
                 string imageDataURL = string.Format("data:image/jpg;base64,{0}", imageBase64Data);
@@ -114,7 +114,7 @@ namespace Blog.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid is false)
             {
                 return View();
             }
@@ -122,7 +122,7 @@ namespace Blog.Web.Controllers
             var isReCaptchaValid = await _captchaService
                 .VerifyReCaptcha(registerViewModel.ReCaptchaToken);
 
-            if (!isReCaptchaValid)
+            if (isReCaptchaValid is false)
             {
                 ModelState.AddModelError(string.Empty, "مشکلی رخ داده است. لطفا مجدد تلاش کنید.");
                 return View();
@@ -170,7 +170,7 @@ namespace Blog.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel loginViewModel)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid is false)
             {
                 return View();
             }
@@ -178,7 +178,7 @@ namespace Blog.Web.Controllers
             var isReCaptchaValid = await _captchaService
                 .VerifyReCaptcha(loginViewModel.ReCaptchaToken);
 
-            if (!isReCaptchaValid)
+            if (isReCaptchaValid is false)
             {
                 ModelState.AddModelError(string.Empty, "مشکلی رخ داده است. لطفا مجدد تلاش کنید.");
                 return View();
@@ -207,7 +207,7 @@ namespace Blog.Web.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
         public IActionResult ConfirmEmailMessage() => View();
@@ -236,7 +236,7 @@ namespace Blog.Web.Controllers
         public async Task<IActionResult> ResendEmailConfirmation
             (ResendEmailConfirmationViewModel emailConfirmationViewModel)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid is false)
             {
                 return View();
             }
@@ -244,7 +244,7 @@ namespace Blog.Web.Controllers
             var isReCaptchaValid = await _captchaService
                 .VerifyReCaptcha(emailConfirmationViewModel.ReCaptchaToken);
 
-            if (!isReCaptchaValid)
+            if (isReCaptchaValid is false)
             {
                 ModelState.AddModelError(string.Empty, "مشکلی رخ داده است. لطفا مجدد تلاش کنید.");
                 return View();
@@ -279,7 +279,7 @@ namespace Blog.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> ForgetPassword(ForgetPasswordViewModel forgetPasswordViewModel)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid is false)
             {
                 return View();
             }
@@ -287,7 +287,7 @@ namespace Blog.Web.Controllers
             var isReCaptchaValid = await _captchaService
                 .VerifyReCaptcha(forgetPasswordViewModel.ReCaptchaToken);
 
-            if (!isReCaptchaValid)
+            if (isReCaptchaValid is false)
             {
                 ModelState.AddModelError(string.Empty, "مشکلی رخ داده است. لطفا مجدد تلاش کنید.");
                 return View();
@@ -295,7 +295,7 @@ namespace Blog.Web.Controllers
 
             var user = await _userManager.FindByEmailAsync(forgetPasswordViewModel.Email);
             var isEmailConfirm = await _userManager.IsEmailConfirmedAsync(user);
-            if (user == null || !isEmailConfirm)
+            if (user is null || isEmailConfirm is false)
             {
                 return RedirectToAction(nameof(ForgetPasswordConfirmation));
             }
@@ -304,7 +304,7 @@ namespace Blog.Web.Controllers
             passwordResetToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(passwordResetToken));
 
             string url = Url.Action(
-                action: "ResetPassword",
+                action: nameof(ResetPassword),
                 controller: "Account",
                 values: new { code = passwordResetToken },
                 protocol: Request.Scheme,
@@ -327,7 +327,7 @@ namespace Blog.Web.Controllers
                 return NotFound();
             }
 
-            var viewModel = new ResetPasswordViewModel
+            ResetPasswordViewModel viewModel = new()
             {
                 Token = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code))
             };
@@ -338,7 +338,7 @@ namespace Blog.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel resetPasswordViewModel)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid is false)
             {
                 return View();
             }
@@ -346,7 +346,7 @@ namespace Blog.Web.Controllers
             var isReCaptchaValid = await _captchaService
                 .VerifyReCaptcha(resetPasswordViewModel.ReCaptchaToken);
 
-            if (!isReCaptchaValid)
+            if (isReCaptchaValid is false)
             {
                 ModelState.AddModelError(string.Empty, "مشکلی رخ داده است. لطفا مجدد تلاش کنید.");
                 return View();
