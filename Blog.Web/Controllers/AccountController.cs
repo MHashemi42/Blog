@@ -40,7 +40,6 @@ namespace Blog.Web.Controllers
         [Authorize]
         public async Task<IActionResult> Profile()
         {
-            //TODO: Get user info from cookie
             var user = await _userManager.Users
                         .Include(u => u.Avatar)
                         .SingleOrDefaultAsync(u => u.NormalizedUserName == User.Identity.Name.ToUpper());
