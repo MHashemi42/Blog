@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Blog.Web.ViewModels
 {
-    public class ProfileViewModel
+    public class EditProfileViewModel
     {
         [Required]
         [MinLength(3, ErrorMessage = "{0} حداقل باید {1} حرف باشد.")]

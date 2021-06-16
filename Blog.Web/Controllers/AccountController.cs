@@ -38,13 +38,13 @@ namespace Blog.Web.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> Profile()
+        public async Task<IActionResult> EditProfile()
         {
             var user = await _userManager.Users
                         .Include(u => u.Avatar)
                         .SingleOrDefaultAsync(u => u.NormalizedUserName == User.Identity.Name.ToUpper());
 
-            ProfileViewModel viewModel = new()
+            EditProfileViewModel viewModel = new()
             {
                 Bio = user.Bio,
                 BirthDay = user.BirthDay,
@@ -67,7 +67,7 @@ namespace Blog.Web.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Profile(ProfileViewModel profileViewModel)
+        public async Task<IActionResult> EditProfile(EditProfileViewModel profileViewModel)
         {
             if (ModelState.IsValid is false)
             {
