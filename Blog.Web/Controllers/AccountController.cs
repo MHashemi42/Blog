@@ -37,6 +37,39 @@ namespace Blog.Web.Controllers
             _captchaService = captchaService;
         }
 
+        [Route("/User/{username}")]
+        public async Task<IActionResult> Profile(string username)
+        {
+            var user = await _userManager.Users
+                        .Include(u => u.Avatar)
+                        .SingleOrDefaultAsync(u => u.NormalizedUserName == username.ToUpper());
+
+            if (user is null)
+            {
+                return NotFound();
+            }
+
+            ProfileViewModel viewModel = new()
+            {
+                Username = user.UserName,
+                FriendlyName = user.FriendlyName,
+                Bio = user.Bio
+            };
+
+            if (user.Avatar is object)
+            {
+                string imageBase64Data = Convert.ToBase64String(user.Avatar.ImageData);
+                string imageDataURL = string.Format("data:image/jpg;base64,{0}", imageBase64Data);
+                viewModel.AvatarDataUrl = imageDataURL;
+            }
+            else
+            {
+                viewModel.AvatarDataUrl = "https://www.dntips.ir/file/avatar?name=568994f5ee7e4776b250aa9a9815883e.jpg";
+            }
+
+            return View(viewModel);
+        }
+
         [Authorize]
         public async Task<IActionResult> EditProfile()
         {
