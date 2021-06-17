@@ -1,44 +1,50 @@
 ﻿@model RegisterViewModel
 @inject IOptions<ReCaptchaSettings> ReCaptcha
-
-<h1>ثبت نام حساب کاربری</h1>
-<form method="post" class="needs-validation" id="register-form" novalidate>
-    <div asp-validation-summary="ModelOnly" class="text-danger">
-        <span>خطا:</span>
+@{
+    ViewBag.Title = "ثبت نام";
+}
+<h1 class="text-center">ثبت نام حساب کاربری</h1>
+<div class="row justify-content-center">
+    <div class="col-10 col-md-6">
+        <form method="post" class="needs-validation" id="register-form" novalidate>
+            <div asp-validation-summary="ModelOnly" class="text-danger">
+                <span>خطا:</span>
+            </div>
+            <input asp-for="ReCaptchaToken" type="hidden" />
+            <div class="form-group">
+                <label asp-for="Username"></label>
+                <input asp-for="Username" class="form-control direction-ltr" />
+                <span asp-validation-for="Username"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FriendlyName"></label>
+                <input asp-for="FriendlyName" class="form-control" />
+                <span asp-validation-for="FriendlyName"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConfirmPassword"></label>
+                <input asp-for="ConfirmPassword" class="form-control" />
+                <span asp-validation-for="ConfirmPassword"></span>
+            </div>
+            <button class="g-recaptcha btn btn-primary"
+                    data-sitekey="@ReCaptcha.Value.SiteKey"
+                    data-callback='onSubmit'
+                    data-action='submit'>
+                ثبت نام
+            </button>
+        </form>
     </div>
-    <input asp-for="ReCaptchaToken" type="hidden"/>
-    <div class="form-group">
-        <label asp-for="Username"></label>
-        <input asp-for="Username" class="form-control direction-ltr" />
-        <span asp-validation-for="Username"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="FriendlyName"></label>
-        <input asp-for="FriendlyName" class="form-control"/>
-        <span asp-validation-for="FriendlyName"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Email"></label>
-        <input asp-for="Email" class="form-control" />
-        <span asp-validation-for="Email"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Password"></label>
-        <input asp-for="Password" class="form-control" />
-        <span asp-validation-for="Password"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="ConfirmPassword"></label>
-        <input asp-for="ConfirmPassword" class="form-control" />
-        <span asp-validation-for="ConfirmPassword"></span>
-    </div>
-    <button class="g-recaptcha btn btn-primary"
-            data-sitekey="@ReCaptcha.Value.SiteKey"
-            data-callback='onSubmit'
-            data-action='submit'>
-        ثبت نام
-    </button>
-</form>
+</div>
 
 @section Scripts
 {
