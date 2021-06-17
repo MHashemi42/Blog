@@ -1,4 +1,14 @@
-﻿.field-validation-error {
+﻿html {
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+    display: grid;
+    grid-template-rows: 1fr auto;
+}
+
+.field-validation-error {
     color: #dc3545;
     font-size: smaller;
 }
@@ -6,4 +16,9 @@
 .direction-ltr
 {
     direction: ltr;
+}
+
+.footer {
+    grid-row-start: 2;
+    grid-row-end: 3;
 }

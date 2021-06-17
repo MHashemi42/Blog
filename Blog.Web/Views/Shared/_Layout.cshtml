@@ -9,9 +9,19 @@
     <title>@ViewBag.Title</title>
 </head>
 <body>
-    <div class="container">
-        @RenderBody()
+    <div>
+        <header>
+            <nav class="navbar navbar-light bg-light direction-ltr">
+                <span class="navbar-brand mb-0 h1">Blog</span>
+            </nav>
+        </header>
+        <main class="container">
+            @RenderBody()
+        </main>
     </div>
+    <footer class="footer direction-ltr bg-light">
+        <nav class="navbar navbar-light container">&copy;Blog, 2021</nav>
+    </footer>
     <script src="~/lib/jquery/jquery.slim.min.js"></script>
     <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
     @RenderSection("Scripts", required: false)
