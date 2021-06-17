@@ -10,6 +10,8 @@ namespace Blog.Web.ViewModels
     {
         [Required(ErrorMessage = "لطفا {0} خود را وارد نمائید.")]
         [MinLength(3, ErrorMessage = "{0} حداقل باید {1} حرف باشد.")]
+        [RegularExpression(@"^[a-zA-Z]([._-](?![._-])|[a-zA-Z0-9]){1,18}[a-zA-Z0-9]$",
+            ErrorMessage = "{0} نامعتبر است.")]
         [Display(Name = "نام کاربری")]
         public string Username { get; set; }
 
