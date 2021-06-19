@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Blog.Web.Attributes;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -34,6 +35,7 @@ namespace Blog.Web.ViewModels
         [Display(Name = "درباره من")]
         public string Bio { get; set; }
 
+        [AllowedExtensions(new string[] {".jpg", ".png"})]
         [Display(Name = "تصویر پروفایل")]
         public IFormFile Avatar { get; set; }
 
