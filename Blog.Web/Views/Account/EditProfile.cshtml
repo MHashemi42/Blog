@@ -51,6 +51,7 @@
             </div>
             <h5>تصویر:</h5>
             <img src="@Model.AvatarDataUrl" class="rounded-circle my-1" style="width:150px; height:150px" />
+            <input asp-for="AvatarDataUrl" type="hidden"/>
             <div class="custom-file">
                 <input asp-for="Avatar" class="custom-file-input" aria-describedby="avatarHint" />
                 <label asp-for="Avatar" class="custom-file-label">انتخاب کنید...</label>
