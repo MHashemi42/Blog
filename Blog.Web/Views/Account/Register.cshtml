@@ -1,15 +1,12 @@
 ﻿@model RegisterViewModel
 @inject IOptions<ReCaptchaSettings> ReCaptcha
 @{
-    ViewBag.Title = "ثبت نام";
+    ViewBag.Title = "ثبت نام حساب کاربری";
 }
-<h1 class="text-center">ثبت نام حساب کاربری</h1>
+<h1 class="text-center">@ViewBag.Title</h1>
 <div class="row justify-content-center">
     <div class="col-10 col-md-6">
         <form method="post" class="needs-validation" id="register-form" novalidate>
-            <div asp-validation-summary="ModelOnly" class="text-danger">
-                <span>خطا:</span>
-            </div>
             <input asp-for="ReCaptchaToken" type="hidden" />
             <div class="form-group">
                 <label asp-for="Username"></label>
@@ -35,6 +32,9 @@
                 <label asp-for="ConfirmPassword"></label>
                 <input asp-for="ConfirmPassword" class="form-control" />
                 <span asp-validation-for="ConfirmPassword"></span>
+            </div>
+            <div asp-validation-summary="ModelOnly" class="text-danger">
+                <span>خطا:</span>
             </div>
             <button class="g-recaptcha btn btn-primary"
                     data-sitekey="@ReCaptcha.Value.SiteKey"

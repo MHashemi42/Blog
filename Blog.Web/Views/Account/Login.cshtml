@@ -4,13 +4,10 @@
     ViewBag.Title = "ورود به حساب کاربری";
 }
 
-<h1 class="text-center">ورود به حساب کاربری</h1>
+<h1 class="text-center">@ViewBag.Title</h1>
 <div class="row justify-content-center">
     <div class="col-10 col-md-8 col-lg-6">
         <form method="post" id="login-form">
-            <div asp-validation-summary="ModelOnly" class="text-danger">
-                <span>خطا:</span>
-            </div>
             <input asp-for="ReturnUrl" type="hidden" />
             <input asp-for="ReCaptchaToken" type="hidden" />
             <div class="form-group">
@@ -27,6 +24,9 @@
                 <input asp-for="RememberMe" class="form-check-input" />
                 <label asp-for="RememberMe" class="form-check-label"></label>
                 <span asp-validation-for="RememberMe"></span>
+            </div>
+            <div asp-validation-summary="ModelOnly" class="text-danger">
+                <span>خطا:</span>
             </div>
             <button class="g-recaptcha btn btn-primary"
                     data-sitekey="@ReCaptcha.Value.SiteKey"

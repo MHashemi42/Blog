@@ -4,14 +4,14 @@
 }
 <div class="row justify-content-center">
     <div class="col-md-9 col-lg-7">
-        <h1>ویرایش پروفایل</h1>
+        <h1>@ViewBag.Title</h1>
         <form method="post" enctype="multipart/form-data"
               class="needs-validation" novalidate>
             <div class="row">
                 <div class="col-sm">
                     <div class="form-group">
                         <label asp-for="Username"></label>
-                        <input asp-for="Username" class="form-control" readonly/>
+                        <input asp-for="Username" class="form-control" readonly />
                         <span asp-validation-for="Username"></span>
                     </div>
                 </div>
@@ -25,7 +25,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Email"></label>
-                <input asp-for="Email" class="form-control" readonly/>
+                <input asp-for="Email" class="form-control" readonly />
                 <span asp-validation-for="Email"></span>
             </div>
             <div class="row">
@@ -57,7 +57,10 @@
                 <small id="avatarHint" class="form-text text-muted">تصاویر مجاز برای ارسال از نوع های png و jpg هستند.</small>
                 <span asp-validation-for="Avatar"></span>
             </div>
-            <button type="submit" class="btn btn-primary mt-1">ذخیره</button>
+            <div asp-validation-summary="ModelOnly" class="text-danger mt-1">
+                <span>خطا:</span>
+            </div>
+            <button type="submit" class="btn btn-primary">ذخیره</button>
         </form>
     </div>
 </div>
