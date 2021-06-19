@@ -105,7 +105,7 @@ namespace Blog.Web.Controllers
         {
             if (ModelState.IsValid is false)
             {
-                return View();
+                return View(profileViewModel);
             }
             
             var user = await _userManager.Users
