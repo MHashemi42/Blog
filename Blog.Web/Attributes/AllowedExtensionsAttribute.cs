@@ -20,10 +20,10 @@ namespace Blog.Web.Attributes
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             var file = value as IFormFile;
-            if (file != null)
+            if (file is object)
             {
                 var extension = Path.GetExtension(file.FileName);
-                if (!_extensions.Contains(extension.ToLower()))
+                if (_extensions.Contains(extension.ToLower()) is false)
                 {
                     return new ValidationResult(_errorMessage);
                 }
