@@ -284,7 +284,7 @@ namespace Blog.Web.Controllers
             }
 
             var user = await _userManager.FindByEmailAsync(emailConfirmationViewModel.Email);
-            if (user is null)
+            if (user is null || user.EmailConfirmed)
             {
                 return RedirectToAction(nameof(ConfirmEmailMessage));
             }
