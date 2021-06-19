@@ -1,4 +1,5 @@
 ﻿using Blog.Data.Entities;
+using Blog.Web.Helpers;
 using Blog.Web.Services;
 using Blog.Web.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -85,7 +86,7 @@ namespace Blog.Web.Controllers
                 Location = user.Location,
                 Username = user.UserName,
                 Email = user.Email,
-                AvatarDataUrl = "https://www.dntips.ir/file/avatar?name=568994f5ee7e4776b250aa9a9815883e.jpg"
+                AvatarDataUrl = DefaultAvatar.DEFAULT
             };
 
             if (user.Avatar is object)
@@ -136,7 +137,7 @@ namespace Blog.Web.Controllers
             }
             else
             {
-                profileViewModel.AvatarDataUrl = "https://www.dntips.ir/file/avatar?name=568994f5ee7e4776b250aa9a9815883e.jpg";
+                profileViewModel.AvatarDataUrl = DefaultAvatar.DEFAULT;
             }
 
             return View(profileViewModel);
