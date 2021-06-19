@@ -65,7 +65,7 @@ namespace Blog.Web.Controllers
             }
             else
             {
-                viewModel.AvatarDataUrl = "https://www.dntips.ir/file/avatar?name=568994f5ee7e4776b250aa9a9815883e.jpg";
+                viewModel.AvatarDataUrl = DefaultAvatar.DEFAULT;
             }
 
             return View(viewModel);
