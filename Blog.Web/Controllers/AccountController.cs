@@ -85,8 +85,7 @@ namespace Blog.Web.Controllers
                 FriendlyName = user.FriendlyName,
                 Location = user.Location,
                 Username = user.UserName,
-                Email = user.Email,
-                AvatarDataUrl = DefaultAvatar.DEFAULT
+                Email = user.Email
             };
 
             if (user.Avatar is object)
@@ -94,6 +93,10 @@ namespace Blog.Web.Controllers
                 string imageBase64Data = Convert.ToBase64String(user.Avatar.ImageData);
                 string imageDataURL = string.Format("data:image/jpg;base64,{0}", imageBase64Data);
                 viewModel.AvatarDataUrl = imageDataURL;
+            }
+            else
+            {
+                viewModel.AvatarDataUrl = DefaultAvatar.DEFAULT;
             }
 
             return View(viewModel);
