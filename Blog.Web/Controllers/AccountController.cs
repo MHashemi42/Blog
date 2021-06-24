@@ -1,4 +1,5 @@
 ﻿using Blog.Data.Entities;
+using Blog.Data.Extensions;
 using Blog.Web.Helpers;
 using Blog.Web.Services;
 using Blog.Web.ViewModels;
@@ -41,9 +42,7 @@ namespace Blog.Web.Controllers
         [Route("/User/{username}")]
         public async Task<IActionResult> Profile(string username)
         {
-            var user = await _userManager.Users
-                        .Include(u => u.Avatar)
-                        .SingleOrDefaultAsync(u => u.NormalizedUserName == username.ToUpper());
+            var user = await _userManager.GetUserWithAvatar(username);
 
             if (user is null)
             {
@@ -74,9 +73,7 @@ namespace Blog.Web.Controllers
         [Authorize]
         public async Task<IActionResult> EditProfile()
         {
-            var user = await _userManager.Users
-                        .Include(u => u.Avatar)
-                        .SingleOrDefaultAsync(u => u.NormalizedUserName == User.Identity.Name.ToUpper());
+            var user = await _userManager.GetUserWithAvatar(User.Identity.Name);
 
             EditProfileViewModel viewModel = new()
             {
@@ -110,10 +107,8 @@ namespace Blog.Web.Controllers
             {
                 return View(profileViewModel);
             }
-            
-            var user = await _userManager.Users
-                        .Include(u => u.Avatar)
-                        .SingleOrDefaultAsync(u => u.NormalizedUserName == User.Identity.Name.ToUpper());
+
+            var user = await _userManager.GetUserWithAvatar(User.Identity.Name);
 
             user.FriendlyName = profileViewModel.FriendlyName;
             user.BirthDay = profileViewModel.BirthDay;
