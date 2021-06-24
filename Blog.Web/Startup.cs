@@ -56,7 +56,10 @@ namespace Blog.Web
             });
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, 
+                              IWebHostEnvironment env,
+                              UserManager<ApplicationUser> userManager,
+                              RoleManager<ApplicationRole> roleManager)
         {
             if (env.IsDevelopment())
             {
@@ -69,6 +72,8 @@ namespace Blog.Web
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            IdentityDataInitializer.SeedData(userManager, roleManager, Configuration);
 
             app.UseEndpoints(endpoints =>
             {
