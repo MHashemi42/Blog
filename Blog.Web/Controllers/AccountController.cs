@@ -406,6 +406,8 @@ namespace Blog.Web.Controllers
         }
 
         public IActionResult ResetPasswordConfirmation() => View();
+
+        public IActionResult AccessDenied() => View();
     }
 
 }
