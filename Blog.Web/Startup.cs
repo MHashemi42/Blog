@@ -27,7 +27,11 @@ namespace Blog.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddRazorPages();
+            services.AddRazorPages()
+                .AddRazorPagesOptions(options =>
+                {
+                    options.Conventions.AuthorizeAreaFolder("Admin", "/", "RequireAdminRole");
+                });
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("RequireAdminRole", policy =>
