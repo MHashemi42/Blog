@@ -28,6 +28,14 @@ namespace Blog.Web
         {
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireAdminRole", policy =>
+                {
+                    policy.RequireAuthenticatedUser()
+                        .RequireRole("Admin");
+                });
+            });
 
             services.AddDbContext<BlogDbContext>(options =>
             {
