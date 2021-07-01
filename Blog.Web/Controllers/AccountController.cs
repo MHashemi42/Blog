@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -26,17 +27,20 @@ namespace Blog.Web.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailService _emailService;
         private readonly ICaptchaService _captchaService;
+        private readonly IMemoryCache _memoryCache;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailService emailService,
-            ICaptchaService captchaService)
+            ICaptchaService captchaService,
+            IMemoryCache memoryCache)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailService = emailService;
             _captchaService = captchaService;
+            _memoryCache = memoryCache;
         }
 
         [Route("/User/{username}")]
@@ -123,6 +127,8 @@ namespace Blog.Web.Controllers
                 using var ms = new MemoryStream();
                 await profileViewModel.Avatar.CopyToAsync(ms);
                 user.Avatar.ImageData = ms.ToArray();
+
+                _memoryCache.Remove(User.Identity.Name + CacheKeys.Avatar);
             }
 
             await _userManager.UpdateAsync(user);
