@@ -30,7 +30,7 @@ namespace Blog.Web.ViewComponents
                 User.Identity.IsAuthenticated)
             {
                 //Key is not cache, so get value
-                var avatar = await _userManager.GetAvatarByUsername(User.Identity.Name ?? string.Empty);
+                var avatar = await _userManager.GetAvatarByUsername(User.Identity.Name);
                 if (avatar is object)
                 {
                     string imageBase64Data = Convert.ToBase64String(avatar.ImageData);
@@ -44,7 +44,7 @@ namespace Blog.Web.ViewComponents
 
                 //Set cache options
                 var cacheEntryOptions = new MemoryCacheEntryOptions()
-                    .SetAbsoluteExpiration(TimeSpan.FromSeconds(60));
+                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(2));
 
                 //Save data in cache
                 _memoryCache.Set("_Avatar", avatarDataUrl, cacheEntryOptions);
