@@ -14,7 +14,7 @@
             <nav class="navbar navbar-light bg-light navbar-expand px-5 direction-ltr">
                 <span class="navbar-brand mb-0 h1">Blog</span>
                 <ul class="navbar-nav ml-auto">
-                    <partial name="_UserNavbar" />
+                    @await Component.InvokeAsync("UserNavbar")
                 </ul>
             </nav>
         </header>
