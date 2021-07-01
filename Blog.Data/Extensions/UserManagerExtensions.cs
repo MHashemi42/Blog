@@ -24,9 +24,10 @@ namespace Blog.Data.Extensions
         public async static Task<Avatar> GetAvatarByUsername(this UserManager<ApplicationUser> userManager,
             string username)
         {
+            var normalizedUsername = username?.ToUpper();
             var avatar = await userManager.Users
                     .Select(u => u.Avatar)
-                    .FirstOrDefaultAsync(a => a.User.NormalizedUserName == username.ToUpper());
+                    .FirstOrDefaultAsync(a => a.User.NormalizedUserName == normalizedUsername);
 
             return avatar;
         }
