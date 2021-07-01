@@ -26,9 +26,10 @@ namespace Blog.Web.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
+            string avatarDataUrl = string.Empty;
             if (User.Identity.IsAuthenticated &&
                 _memoryCache.TryGetValue(User.Identity.Name + CacheKeys.Avatar,
-                    out string avatarDataUrl) is false)
+                    out avatarDataUrl) is false)
             {
                 //Key is not cache, so get value
                 var avatar = await _userManager.GetAvatarByUsername(User.Identity.Name);
@@ -49,9 +50,9 @@ namespace Blog.Web.ViewComponents
 
                 //Save data in cache
                 _memoryCache.Set(User.Identity.Name + CacheKeys.Avatar, avatarDataUrl, cacheEntryOptions);
-
-                ViewBag.AvatarDataUrl = avatarDataUrl;
             }
+
+            ViewBag.AvatarDataUrl = avatarDataUrl;
 
             return View();
         }
