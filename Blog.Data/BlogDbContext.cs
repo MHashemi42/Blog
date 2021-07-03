@@ -17,24 +17,11 @@ namespace Blog.Data
 
         }
 
-        public DbSet<Avatar> Avatars { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<Avatar>(avatar =>
-            {
-                avatar.HasKey(a => a.AvatarId);
-
-                avatar.Property(a => a.ImageTitle).IsRequired();
-                avatar.Property(a => a.ImageData).IsRequired();
-
-                avatar.HasOne(a => a.User)
-                      .WithOne(u => u.Avatar)
-                      .HasForeignKey<ApplicationUser>(u => u.AvatarId)
-                      .OnDelete(DeleteBehavior.Cascade);
-            });
 
             builder.Entity<ApplicationUser>(user =>
             {
@@ -42,11 +29,7 @@ namespace Blog.Data
                 user.Property(u => u.BirthDay).HasColumnType("date");
                 user.Property(u => u.Location).HasMaxLength(100);
                 user.Property(u => u.Bio).HasMaxLength(500);
-
-                user.HasOne(u => u.Avatar)
-                    .WithOne(a => a.User)
-                    .HasForeignKey<Avatar>(a => a.UserId)
-                    .OnDelete(DeleteBehavior.Cascade);
+                user.Property(u => u.AvatarPath).HasMaxLength(500);
             });
         }
     }
