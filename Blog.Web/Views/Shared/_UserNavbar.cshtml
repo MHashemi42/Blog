@@ -2,7 +2,7 @@
 {
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
-            <img src="~/images/users/@(User.Claims.FirstOrDefault(c => c.Type == ApplicationClaimTypes.Avatar).Value ?? "default.jpg")"
+            <img src="~/images/users/@(User.GetAvatarName() ?? "default.jpg")"
                  asp-append-version="true" class="rounded-circle" style="width:1.5rem;height:1.5rem" />
             <span>@User.Identity.Name</span>
         </a>
