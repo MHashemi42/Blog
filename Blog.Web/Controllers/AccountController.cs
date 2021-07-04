@@ -1,15 +1,17 @@
 ﻿using Blog.Data.Entities;
-using Blog.Data.Extensions;
 using Blog.Web.Helpers;
 using Blog.Web.Services;
 using Blog.Web.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -28,26 +30,28 @@ namespace Blog.Web.Controllers
         private readonly IEmailService _emailService;
         private readonly ICaptchaService _captchaService;
         private readonly IMemoryCache _memoryCache;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailService emailService,
             ICaptchaService captchaService,
-            IMemoryCache memoryCache)
+            IMemoryCache memoryCache,
+            IWebHostEnvironment webHostEnvironment)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailService = emailService;
             _captchaService = captchaService;
             _memoryCache = memoryCache;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         [Route("/User/{username}")]
         public async Task<IActionResult> Profile(string username)
         {
-            var user = await _userManager.GetUserWithAvatar(username);
-
+            var user = await _userManager.FindByNameAsync(username);
             if (user is null)
             {
                 return NotFound();
@@ -57,19 +61,9 @@ namespace Blog.Web.Controllers
             {
                 Username = user.UserName,
                 FriendlyName = user.FriendlyName,
-                Bio = user.Bio
+                Bio = user.Bio,
+                AvatarPath = Path.Combine("~/images", "users", user.AvatarName ?? "default.jpg")
             };
-
-            if (user.Avatar is object)
-            {
-                string imageBase64Data = Convert.ToBase64String(user.Avatar.ImageData);
-                string imageDataURL = string.Format("data:image/jpg;base64,{0}", imageBase64Data);
-                viewModel.AvatarDataUrl = imageDataURL;
-            }
-            else
-            {
-                viewModel.AvatarDataUrl = DefaultAvatar.DEFAULT;
-            }
 
             return View(viewModel);
         }
@@ -77,7 +71,11 @@ namespace Blog.Web.Controllers
         [Authorize]
         public async Task<IActionResult> EditProfile()
         {
-            var user = await _userManager.GetUserWithAvatar(User.Identity.Name);
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            if (user is null)
+            {
+                return NotFound();
+            }
 
             EditProfileViewModel viewModel = new()
             {
@@ -86,19 +84,9 @@ namespace Blog.Web.Controllers
                 FriendlyName = user.FriendlyName,
                 Location = user.Location,
                 Username = user.UserName,
-                Email = user.Email
+                Email = user.Email,
+                AvatarPath = Path.Combine("~/images", "users", user.AvatarName ?? "default.jpg")
             };
-
-            if (user.Avatar is object)
-            {
-                string imageBase64Data = Convert.ToBase64String(user.Avatar.ImageData);
-                string imageDataURL = string.Format("data:image/jpg;base64,{0}", imageBase64Data);
-                viewModel.AvatarDataUrl = imageDataURL;
-            }
-            else
-            {
-                viewModel.AvatarDataUrl = DefaultAvatar.DEFAULT;
-            }
 
             return View(viewModel);
         }
@@ -112,37 +100,40 @@ namespace Blog.Web.Controllers
                 return View(profileViewModel);
             }
 
-            var user = await _userManager.GetUserWithAvatar(User.Identity.Name);
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            if (user is null)
+            {
+                return NotFound();
+            }
+
+            //Upload new avatar
+            if (profileViewModel.Avatar is object)
+            {
+                var ext = Path.GetExtension(profileViewModel.Avatar.FileName);
+                user.AvatarName ??= Guid.NewGuid().ToString() + ext;
+
+                var directoryPath = 
+                    Path.Combine(_webHostEnvironment.WebRootPath,"images", "users");
+                if (Directory.Exists(directoryPath) is false)
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+
+                var filePath = Path.Combine(directoryPath, user.AvatarName);
+                using Image image = Image.Load(profileViewModel.Avatar.OpenReadStream());
+                image.Mutate(x => x.Resize(300, 300));
+                await image.SaveAsync(filePath);
+            }
 
             user.FriendlyName = profileViewModel.FriendlyName;
             user.BirthDay = profileViewModel.BirthDay;
             user.Location = profileViewModel.Location;
             user.Bio = profileViewModel.Bio;
 
-            if (profileViewModel.Avatar is object)
-            {
-                user.Avatar ??= new Avatar();
-                user.Avatar.ImageTitle = profileViewModel.Avatar.FileName;
-
-                using var ms = new MemoryStream();
-                await profileViewModel.Avatar.CopyToAsync(ms);
-                user.Avatar.ImageData = ms.ToArray();
-
-                _memoryCache.Remove(User.Identity.Name + CacheKeys.Avatar);
-            }
-
             await _userManager.UpdateAsync(user);
 
-            if (user.Avatar is object)
-            {
-                string imageBase64Data = Convert.ToBase64String(user.Avatar.ImageData);
-                string imageDataURL = string.Format("data:image/jpg;base64,{0}", imageBase64Data);
-                profileViewModel.AvatarDataUrl = imageDataURL;
-            }
-            else
-            {
-                profileViewModel.AvatarDataUrl = DefaultAvatar.DEFAULT;
-            }
+            profileViewModel.AvatarPath =
+                    Path.Combine("~/images", "users", user.AvatarName ?? "default.jpg");
 
             return View(profileViewModel);
         }
