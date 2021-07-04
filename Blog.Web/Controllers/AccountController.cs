@@ -1,4 +1,5 @@
 ﻿using Blog.Data.Entities;
+using Blog.Data.Identity;
 using Blog.Web.Helpers;
 using Blog.Web.Services;
 using Blog.Web.ViewModels;
@@ -123,6 +124,14 @@ namespace Blog.Web.Controllers
                 using Image image = Image.Load(profileViewModel.Avatar.OpenReadStream());
                 image.Mutate(x => x.Resize(300, 300));
                 await image.SaveAsync(filePath);
+
+                //Add avatar name to claims if not exists
+                if (User.Claims.Any(c => c.Type == ApplicationClaimTypes.Avatar) is false)
+                {
+                    var identity = (ClaimsIdentity)User.Identity;
+                    identity.AddClaim(new Claim(ApplicationClaimTypes.Avatar, user.AvatarName));
+                    await _signInManager.RefreshSignInAsync(user);
+                }
             }
 
             user.FriendlyName = profileViewModel.FriendlyName;
