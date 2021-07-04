@@ -40,6 +40,6 @@ namespace Blog.Web.ViewModels
         public IFormFile Avatar { get; set; }
 
         [DataType(DataType.ImageUrl)]
-        public string AvatarDataUrl { get; set; }
+        public string AvatarPath { get; set; }
     }
 }

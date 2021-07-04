@@ -1,6 +1,6 @@
 ﻿@model ProfileViewModel
 
 <h1>@Model.FriendlyName</h1>
-<img src="@Model.AvatarDataUrl" class="img-thumbnail"/>
+<img src="@Model.AvatarPath" asp-append-version="true"/>
 <h5>@Model.Username</h5>
 <div>@Model.Bio</div>

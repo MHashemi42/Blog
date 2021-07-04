@@ -50,8 +50,7 @@
                 <span asp-validation-for="Bio"></span>
             </div>
             <h5>تصویر:</h5>
-            <img src="@Model.AvatarDataUrl" class="rounded-circle my-1" style="width:150px; height:150px" />
-            <input asp-for="AvatarDataUrl" type="hidden"/>
+            <img src="@Model.AvatarPath" asp-append-version="true" class="rounded-circle my-1" style="width:150px; height:150px" />
             <div class="custom-file">
                 <input asp-for="Avatar" class="custom-file-input"
                        aria-describedby="avatarHint" accept=".jpg, .png"/>

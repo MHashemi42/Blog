@@ -18,6 +18,6 @@ namespace Blog.Web.ViewModels
         public string Bio { get; set; }
 
         [DataType(DataType.ImageUrl)]
-        public string AvatarDataUrl { get; set; }
+        public string AvatarPath { get; set; }
     }
 }
