@@ -29,7 +29,7 @@ namespace Blog.Data
                 user.Property(u => u.BirthDay).HasColumnType("date");
                 user.Property(u => u.Location).HasMaxLength(100);
                 user.Property(u => u.Bio).HasMaxLength(500);
-                user.Property(u => u.AvatarPath).HasMaxLength(500);
+                user.Property(u => u.AvatarName).HasMaxLength(500);
             });
         }
     }
