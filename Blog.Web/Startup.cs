@@ -1,5 +1,6 @@
 using Blog.Data;
 using Blog.Data.Entities;
+using Blog.Data.Identity;
 using Blog.Web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -57,6 +58,8 @@ namespace Blog.Web
             {
                 config.TokenLifespan = TimeSpan.FromHours(1);
             });
+            services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>,
+                ApplicationUserClaimsPrincipalFactory>();
 
             services.Configure<MailKitSettings>(Configuration.GetSection("MailKitSettings"));
             services.Configure<ReCaptchaSettings>(Configuration.GetSection("ReCaptcha"));
