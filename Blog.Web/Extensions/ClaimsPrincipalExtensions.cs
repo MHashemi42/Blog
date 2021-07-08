@@ -11,8 +11,10 @@ namespace Blog.Web.Extensions
     {
         public static string GetAvatarName(this ClaimsPrincipal claimsPrincipal)
         {
-            var avatarName = claimsPrincipal.Claims
-                .FirstOrDefault(c => c.Type == ApplicationClaimTypes.Avatar).Value;
+            var avatarNameClaim = claimsPrincipal.Claims
+                .FirstOrDefault(c => c.Type == ApplicationClaimTypes.Avatar);
+
+            var avatarName = avatarNameClaim?.Value;
 
             return avatarName;
         }
