@@ -1,5 +1,5 @@
 ﻿@model EditProfileViewModel
-@{ 
+@{
     ViewBag.Title = "ویرایش پروفایل";
 }
 <div class="row justify-content-center">
@@ -51,12 +51,22 @@
             </div>
             <h5>تصویر:</h5>
             <img src="@Model.AvatarPath" asp-append-version="true" class="rounded-circle my-1" style="width:150px; height:150px" />
-            <div class="custom-file">
-                <input asp-for="Avatar" class="custom-file-input"
-                       aria-describedby="avatarHint" accept=".jpg, .png"/>
-                <label asp-for="Avatar" class="custom-file-label">انتخاب کنید...</label>
-                <small id="avatarHint" class="form-text text-muted">تصاویر مجاز برای ارسال از نوع های png و jpg هستند.</small>
-                <span asp-validation-for="Avatar"></span>
+            <div class="row">
+                <div class="col-8">
+                    <div class="custom-file">
+                        <input asp-for="Avatar" class="custom-file-input"
+                               aria-describedby="avatarHint" accept=".jpg, .png" />
+                        <label asp-for="Avatar" class="custom-file-label">انتخاب کنید...</label>
+                        <small id="avatarHint" class="form-text text-muted">تصاویر مجاز برای ارسال از نوع های png و jpg هستند.</small>
+                        <span asp-validation-for="Avatar"></span>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <button id="remove-avatar-btn" class="btn btn-danger"
+                            type="button">
+                        حذف تصویر
+                    </button>
+                </div>
             </div>
             <div asp-validation-summary="ModelOnly" class="text-danger mt-1">
                 <span>خطا:</span>
@@ -68,4 +78,18 @@
 @section Scripts
 {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function () {
+            $("#remove-avatar-btn").click(function () {
+                var url = "@Url.Action("DeleteAvatar", "Account")";
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    success: function () {
+                        alert("تصویر با موفقیت حذف شد.");
+                    }
+                });
+            });
+        });
+    </script>
 }
