@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Blog.Data
+namespace Blog.Data.Identity
 {
     public class PersianErrorDescriber : IdentityErrorDescriber
     {
