@@ -147,6 +147,28 @@ namespace Blog.Web.Controllers
             return View(profileViewModel);
         }
 
+        [Authorize]
+        public async Task<IActionResult> DeleteAvatar()
+        {
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            if (user is null)
+            {
+                return NotFound();
+            }
+
+            if (string.IsNullOrWhiteSpace(user.AvatarName))
+            {
+                return BadRequest();
+            }
+
+            var directoryPath =
+                    Path.Combine(_webHostEnvironment.WebRootPath, "images", "users");
+            var avatarPath = Path.Combine(directoryPath, user.AvatarName);
+            System.IO.File.Delete(avatarPath);
+
+            return Ok();
+        }
+
         public IActionResult Register() => View();
 
         [HttpPost]
