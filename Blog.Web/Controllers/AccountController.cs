@@ -166,6 +166,14 @@ namespace Blog.Web.Controllers
             var avatarPath = Path.Combine(directoryPath, user.AvatarName);
             System.IO.File.Delete(avatarPath);
 
+            user.AvatarName = null;
+            await _userManager.UpdateAsync(user);
+
+            var avatarNameClaim = User.Claims.First(c => c.Type == ApplicationClaimTypes.Avatar);
+            var identity = (ClaimsIdentity)User.Identity;
+            identity.RemoveClaim(avatarNameClaim);
+            await _signInManager.RefreshSignInAsync(user);
+
             return Ok();
         }
 
