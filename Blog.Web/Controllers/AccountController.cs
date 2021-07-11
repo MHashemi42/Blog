@@ -147,7 +147,7 @@ namespace Blog.Web.Controllers
 
             TempData["Message"] = "پروفایل با موفقیت ویرایش شد.";
 
-            return View(profileViewModel);
+            return RedirectToAction(nameof(Profile), new { username = user.UserName });
         }
 
         [Authorize]
