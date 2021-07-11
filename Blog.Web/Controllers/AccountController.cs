@@ -313,17 +313,7 @@ namespace Blog.Web.Controllers
             var emailConfirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             emailConfirmationToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(emailConfirmationToken));
 
-            string url = Url.Action(
-                action: nameof(ConfirmEmail),
-                controller: "Account",
-                values: new { code = emailConfirmationToken, userId = user.Id },
-                protocol: Request.Scheme,
-                host: Request.Host.ToString());
-
-            _emailService.Send(
-                to: user.Email,
-                subject: "تایید ایمیل",
-                html: $"<h1>تایید ایمیل</h1>\n<p>برای تایید ایمیل <a href=\"{url}\">اینجا</a> را کلیک کنید.</p>");
+            await SendConfirmEmail(user);
 
             return RedirectToAction(nameof(ConfirmEmailMessage));
         }
