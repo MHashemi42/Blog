@@ -4,10 +4,6 @@
 }
 <div class="row justify-content-center">
     <div class="col-md-9 col-lg-7">
-        @if (TempData["Message"] is object)
-        {
-            <p class="alert alert-success">@TempData["Message"]</p>
-        }
         <h1>@ViewBag.Title</h1>
         <form method="post" enctype="multipart/form-data"
               class="needs-validation" novalidate>
@@ -66,10 +62,13 @@
                     </div>
                 </div>
                 <div class="col-4">
-                    <button id="remove-avatar-btn" class="btn btn-danger"
-                            type="button">
-                        حذف تصویر
-                    </button>
+                    @if (Model.AvatarPath.Contains("default.jpg") is false)
+                    {
+                        <button id="remove-avatar-btn" class="btn btn-danger"
+                                type="button">
+                            حذف تصویر
+                        </button>
+                    }
                 </div>
             </div>
             <div asp-validation-summary="ModelOnly" class="text-danger mt-1">
