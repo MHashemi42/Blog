@@ -145,6 +145,8 @@ namespace Blog.Web.Controllers
             profileViewModel.AvatarPath =
                     Path.Combine("~/images", "users", user.AvatarName ?? "default.jpg");
 
+            TempData["Message"] = "پروفایل با موفقیت ویرایش شد.";
+
             return View(profileViewModel);
         }
 

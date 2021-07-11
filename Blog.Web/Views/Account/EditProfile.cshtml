@@ -4,6 +4,10 @@
 }
 <div class="row justify-content-center">
     <div class="col-md-9 col-lg-7">
+        @if (TempData["Message"] is object)
+        {
+            <p class="alert alert-success">@TempData["Message"]</p>
+        }
         <h1>@ViewBag.Title</h1>
         <form method="post" enctype="multipart/form-data"
               class="needs-validation" novalidate>
