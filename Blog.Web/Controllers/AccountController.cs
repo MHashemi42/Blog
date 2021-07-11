@@ -351,8 +351,7 @@ namespace Blog.Web.Controllers
             }
 
             var user = await _userManager.FindByEmailAsync(forgetPasswordViewModel.Email);
-            var isEmailConfirm = await _userManager.IsEmailConfirmedAsync(user);
-            if (user is null || isEmailConfirm is false)
+            if (user is null)
             {
                 return RedirectToAction(nameof(ForgetPasswordConfirmation));
             }
