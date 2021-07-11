@@ -356,20 +356,7 @@ namespace Blog.Web.Controllers
                 return RedirectToAction(nameof(ForgetPasswordConfirmation));
             }
 
-            string passwordResetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
-            passwordResetToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(passwordResetToken));
-
-            string url = Url.Action(
-                action: nameof(ResetPassword),
-                controller: "Account",
-                values: new { code = passwordResetToken },
-                protocol: Request.Scheme,
-                host: Request.Host.ToString());
-
-            _emailService.Send(
-                to: user.Email,
-                subject: "ویرایش کلمه عبور",
-                html: $"<h1>ویرایش کلمه عبور</h1>\n<p>برای ویرایش کلمه عبور <a href=\"{url}\">اینجا</a> را کلیک کنید.</p>");
+            await SendResetPasswordEmail(user);
 
             return RedirectToAction(nameof(ForgetPasswordConfirmation));
         }
@@ -449,6 +436,24 @@ namespace Blog.Web.Controllers
                 to: user.Email,
                 subject: "تایید ایمیل",
                 html: $"<h1>تایید ایمیل</h1>\n<p>برای تایید ایمیل <a href=\"{url}\">اینجا</a> را کلیک کنید.</p>");
+        }
+
+        private async Task SendResetPasswordEmail(ApplicationUser user)
+        {
+            string passwordResetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+            passwordResetToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(passwordResetToken));
+
+            string url = Url.Action(
+                action: nameof(ResetPassword),
+                controller: "Account",
+                values: new { code = passwordResetToken },
+                protocol: Request.Scheme,
+                host: Request.Host.ToString());
+
+            _emailService.Send(
+                to: user.Email,
+                subject: "ویرایش کلمه عبور",
+                html: $"<h1>ویرایش کلمه عبور</h1>\n<p>برای ویرایش کلمه عبور <a href=\"{url}\">اینجا</a> را کلیک کنید.</p>");
         }
     }
 
