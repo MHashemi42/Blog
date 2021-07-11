@@ -253,8 +253,8 @@ namespace Blog.Web.Controllers
 
             if (signInResult.IsNotAllowed)
             {
-                ModelState.AddModelError(string.Empty, "آدرس ایمیل شما تایید نشده است.");
-                return View();
+                await SendConfirmEmail(user);
+                return RedirectToAction(nameof(ConfirmEmailMessage));
             }
 
             return LocalRedirect(loginViewModel.ReturnUrl ?? "/");
