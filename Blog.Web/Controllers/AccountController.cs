@@ -129,7 +129,8 @@ namespace Blog.Web.Controllers
                 if (User.Claims.Any(c => c.Type == ApplicationClaimTypes.Avatar) is false)
                 {
                     var identity = (ClaimsIdentity)User.Identity;
-                    identity.AddClaim(new Claim(ApplicationClaimTypes.Avatar, user.AvatarName));
+                    var avatarClaim = new Claim(ApplicationClaimTypes.Avatar, user.AvatarName);
+                    identity.AddClaim(avatarClaim);
                     await _signInManager.RefreshSignInAsync(user);
                 }
             }
