@@ -209,21 +209,7 @@ namespace Blog.Web.Controllers
             var createResult = await _userManager.CreateAsync(newUser, registerViewModel.Password);
             if (createResult.Succeeded)
             {
-                var emailConfirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
-                emailConfirmationToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(emailConfirmationToken));
-
-                string url = Url.Action(
-                    action: nameof(ConfirmEmail),
-                    controller: "Account",
-                    values: new { code = emailConfirmationToken, userId = newUser.Id },
-                    protocol: Request.Scheme,
-                    host: Request.Host.ToString());
-
-                _emailService.Send(
-                    to: newUser.Email,
-                    subject: "تایید ایمیل",
-                    html: $"<h1>تایید ایمیل</h1>\n<p>برای تایید ایمیل <a href=\"{url}\">اینجا</a> را کلیک کنید.</p>");
-
+                await SendConfirmEmail(newUser);
                 return RedirectToAction(nameof(ConfirmEmailMessage));
             }
 
@@ -447,6 +433,24 @@ namespace Blog.Web.Controllers
         public IActionResult ResetPasswordConfirmation() => View();
 
         public IActionResult AccessDenied() => View();
+
+        private async Task SendConfirmEmail(ApplicationUser user)
+        {
+            var emailConfirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            emailConfirmationToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(emailConfirmationToken));
+
+            string url = Url.Action(
+                action: nameof(ConfirmEmail),
+                controller: "Account",
+                values: new { code = emailConfirmationToken, userId = user.Id },
+                protocol: Request.Scheme,
+                host: Request.Host.ToString());
+
+            _emailService.Send(
+                to: user.Email,
+                subject: "تایید ایمیل",
+                html: $"<h1>تایید ایمیل</h1>\n<p>برای تایید ایمیل <a href=\"{url}\">اینجا</a> را کلیک کنید.</p>");
+        }
     }
 
 }
