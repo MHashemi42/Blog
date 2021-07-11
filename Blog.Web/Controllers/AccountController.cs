@@ -30,7 +30,6 @@ namespace Blog.Web.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailService _emailService;
         private readonly ICaptchaService _captchaService;
-        private readonly IMemoryCache _memoryCache;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
         public AccountController(
@@ -38,14 +37,12 @@ namespace Blog.Web.Controllers
             SignInManager<ApplicationUser> signInManager,
             IEmailService emailService,
             ICaptchaService captchaService,
-            IMemoryCache memoryCache,
             IWebHostEnvironment webHostEnvironment)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailService = emailService;
             _captchaService = captchaService;
-            _memoryCache = memoryCache;
             _webHostEnvironment = webHostEnvironment;
         }
 
