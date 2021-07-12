@@ -11,25 +11,39 @@ using System.Threading.Tasks;
 namespace Blog.Data.Identity
 {
     public class ApplicationUserClaimsPrincipalFactory
-        : UserClaimsPrincipalFactory<ApplicationUser>
+        : UserClaimsPrincipalFactory<ApplicationUser, ApplicationRole>
     {
         public ApplicationUserClaimsPrincipalFactory(
             UserManager<ApplicationUser> userManager,
+            RoleManager<ApplicationRole> roleManager,
             IOptions<IdentityOptions> optionsAccessor)
-                : base(userManager, optionsAccessor)
+                : base(userManager, roleManager, optionsAccessor)
         {
         }
 
-        protected override async Task<ClaimsIdentity> GenerateClaimsAsync(ApplicationUser user)
+        public override async Task<ClaimsPrincipal> CreateAsync(ApplicationUser user)
         {
-            var identity = await base.GenerateClaimsAsync(user);
+            var principal = await base.CreateAsync(user);
+            var identity = (ClaimsIdentity)principal.Identity;
 
             if (string.IsNullOrWhiteSpace(user.AvatarName) is false)
             {
                 identity.AddClaim(new Claim(ApplicationClaimTypes.Avatar, user.AvatarName));
             }
 
-            return identity;
+            return principal;
         }
+
+        //protected override async Task<ClaimsIdentity> GenerateClaimsAsync(ApplicationUser user)
+        //{
+        //    var identity = await base.GenerateClaimsAsync(user);
+
+        //    if (string.IsNullOrWhiteSpace(user.AvatarName) is false)
+        //    {
+        //        identity.AddClaim(new Claim(ApplicationClaimTypes.Avatar, user.AvatarName));
+        //    }
+
+        //    return identity;
+        //}
     }
 }
