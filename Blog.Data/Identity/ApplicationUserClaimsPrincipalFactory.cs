@@ -33,17 +33,5 @@ namespace Blog.Data.Identity
 
             return principal;
         }
-
-        //protected override async Task<ClaimsIdentity> GenerateClaimsAsync(ApplicationUser user)
-        //{
-        //    var identity = await base.GenerateClaimsAsync(user);
-
-        //    if (string.IsNullOrWhiteSpace(user.AvatarName) is false)
-        //    {
-        //        identity.AddClaim(new Claim(ApplicationClaimTypes.Avatar, user.AvatarName));
-        //    }
-
-        //    return identity;
-        //}
     }
 }
