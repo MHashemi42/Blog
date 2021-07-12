@@ -1,0 +1,39 @@
+﻿@page
+@model Blog.Web.Areas.Admin.Pages.Users.IndexModel
+@{
+    ViewData["Title"] = "Users";
+}
+
+<h1>کاربران</h1>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>شناسه کاربری</th>
+            <th>نام کاربری</th>
+            <th>آدرس ایمیل</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.Users)
+        {
+            <tr>
+                <td>@user.Id</td>
+                <td>@user.UserName</td>
+                <td>@user.Email</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<nav>
+    <ul class="pagination">
+        <li class="page-item @Model.PreviousDisabled">
+            <a class="page-link"
+               asp-route-pageNumber="@(Model.Users.CurrentPage - 1)">Previous</a>
+        </li>
+        <li class="page-item @Model.NextDisabled">
+            <a class="page-link"
+               asp-route-pageNumber="@(Model.Users.CurrentPage + 1)">Next</a>
+        </li>
+    </ul>
+</nav>
