@@ -254,6 +254,12 @@ namespace Blog.Web.Controllers
                 return RedirectToAction(nameof(ConfirmEmailMessage));
             }
 
+            if (signInResult.Succeeded is false)
+            {
+                ModelState.AddModelError(string.Empty, "نام کاربری یا رمز عبور اشتباه است.");
+                return View();
+            }
+
             return LocalRedirect(loginViewModel.ReturnUrl ?? "/");
         }
 
