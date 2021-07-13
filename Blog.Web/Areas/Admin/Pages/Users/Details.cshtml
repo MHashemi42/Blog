@@ -1,0 +1,38 @@
+﻿@page "{username}"
+@model Blog.Web.Areas.Admin.Pages.Users.DetailsModel
+@{
+    ViewData["Title"] = $"اطلاعات {Model.ApplicationUser.UserName}";
+}
+
+<h1>@ViewData["Title"]</h1>
+<div class="row mt-4">
+    <div class="col-auto">
+        <img src="~/images/users/@(Model.ApplicationUser.AvatarName ?? "default.jpg")"
+             asp-append-version="true" class="rounded-circle" style="width:10rem; height:10rem" />
+    </div>
+    <div class="col-auto">
+        <p>شناسه کاربری: @Model.ApplicationUser.Id</p>
+        <p>نام کاربری: @Model.ApplicationUser.UserName</p>
+        <p>آدرس ایمیل: @Model.ApplicationUser.Email</p>
+    </div>
+</div>
+<ul class="list-group mt-3">
+    <li class="list-group-item">
+        نام مستعار: @Model.ApplicationUser.FriendlyName
+    </li>
+    <li class="list-group-item">
+        تاریخ تولد: @(Model.ApplicationUser.BirthDay?.ToLongDateString() ?? "ندارد")
+    </li>
+    <li class="list-group-item">
+        محل اقامت: @(Model.ApplicationUser.Location ?? "ندارد")
+    </li>
+    <li class="list-group-item">
+        نام آواتار: @(Model.ApplicationUser.AvatarName ?? "ندارد")
+    </li>
+    <li class="list-group-item">
+        درباره من: @(Model.ApplicationUser.Bio ?? "ندارد")
+    </li>
+    <li class="list-group-item">
+        نقش ها: @(string.IsNullOrWhiteSpace(Model.UserRoles) ? "ندارد" : Model.UserRoles)
+    </li>
+</ul>
