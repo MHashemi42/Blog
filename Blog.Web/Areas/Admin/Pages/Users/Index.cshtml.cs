@@ -17,6 +17,8 @@ namespace Blog.Web.Areas.Admin.Pages.Users
     {
         private readonly UserManager<ApplicationUser> _userManager;
 
+        [FromQuery]
+        public ApplicationUserParameters Parameters { get; set; }
         public PagedList<ApplicationUser> Users { get; set; }
         public string PreviousDisabled { get; private set; }
         public string NextDisabled { get; private set; }
@@ -26,14 +28,14 @@ namespace Blog.Web.Areas.Admin.Pages.Users
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> OnGet([FromQuery] ApplicationUserParameters parameters)
+        public async Task<IActionResult> OnGet()
         {
-            if (parameters.PageNumber < 1)
+            if (Parameters.PageNumber < 1)
             {
                 return RedirectToPage("Index", new { pageNumber = 1 });
             }
 
-            Users = await _userManager.GetUsersAsync(parameters);
+            Users = await _userManager.GetUsersAsync(Parameters);
             PreviousDisabled = Users.HasPrevious ? string.Empty : "disabled";
             NextDisabled = Users.HasNext ? string.Empty : "disabled";
 
