@@ -17,6 +17,15 @@ namespace Blog.Data.Extensions
             ApplicationUserParameters parameters)
         {
             var source = userManager.Users;
+            if (parameters.QueryByUsername)
+            {
+                source = source.Where(u => u.UserName.Contains(parameters.Query));
+            }
+            if (parameters.QueryByEmail)
+            {
+                source = source.Where(u => u.Email.Contains(parameters.Query));
+            }
+
             var pagedList = await PagedList<ApplicationUser>
                 .ToPagedListAsync(source, parameters.PageNumber, parameters.PageSize);
 
