@@ -39,6 +39,7 @@
             <th>شناسه کاربری</th>
             <th>نام کاربری</th>
             <th>آدرس ایمیل</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -48,6 +49,10 @@
                 <td>@user.Id</td>
                 <td>@user.UserName</td>
                 <td>@user.Email</td>
+                <td>
+                    <a class="btn btn-info" asp-page="Details"
+                       asp-route-username="@user.UserName">جزئیات بیشتر</a>
+                </td>
             </tr>
         }
     </tbody>
