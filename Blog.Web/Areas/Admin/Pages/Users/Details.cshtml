@@ -1,4 +1,4 @@
-﻿@page "{username}"
+﻿@page "{userId:int}"
 @model Blog.Web.Areas.Admin.Pages.Users.DetailsModel
 @{
     ViewData["Title"] = $"اطلاعات {Model.ApplicationUser.UserName}";
@@ -14,6 +14,8 @@
         <p>شناسه کاربری: @Model.ApplicationUser.Id</p>
         <p>نام کاربری: @Model.ApplicationUser.UserName</p>
         <p>آدرس ایمیل: @Model.ApplicationUser.Email</p>
+        <p><a class="btn btn-warning" asp-page="Edit"
+              asp-route-userId="@Model.ApplicationUser.Id">ویرایش اطلاعات</a></p>
     </div>
 </div>
 <ul class="list-group mt-3">

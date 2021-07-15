@@ -20,9 +20,9 @@ namespace Blog.Web.Areas.Admin.Pages.Users
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> OnGet(string username)
+        public async Task<IActionResult> OnGetAsync(int userId)
         {
-            ApplicationUser = await _userManager.FindByNameAsync(username);
+            ApplicationUser = await _userManager.FindByIdAsync(userId.ToString());
             if (ApplicationUser is null)
             {
                 return NotFound();
