@@ -1,0 +1,41 @@
+﻿@page "{userId:int}"
+@model Blog.Web.Areas.Admin.Pages.Users.EditModel
+@{
+    ViewData["Title"] = $"ویرایش اطلاعات {Model.UserEdit.UserName}";
+}
+
+<h1>@ViewData["Title"]</h1>
+<div class="row mt-4">
+    <div class="col-auto">
+        <img src="~/images/users/@(Model.UserEdit.AvatarName ?? "default.jpg")"
+             asp-append-version="true" class="rounded-circle" style="width:10rem; height:10rem" />
+    </div>
+    <div class="col-auto">
+        <p>شناسه کاربری: @Model.UserEdit.Id</p>
+        <p>نام کاربری: @Model.UserEdit.UserName</p>
+        <p>آدرس ایمیل: @Model.UserEdit.Email</p>
+    </div>
+</div>
+<form method="post">
+    <input type="hidden" asp-for="UserEdit.Id"/>
+    <div class="form-group">
+        <label asp-for="UserEdit.Roles"></label>
+        <select class="custom-select" multiple
+                asp-for="UserEdit.Roles" asp-items="Model.SelectListRoles"
+                size="@Model.SelectListRoles.Count()">
+        </select>
+    </div>
+    <div class="custom-control custom-checkbox">
+        <input class="custom-control-input" asp-for="UserEdit.EmailConfirmed" />
+        <label class="custom-control-label" asp-for="UserEdit.EmailConfirmed"></label>
+    </div>
+    <div class="custom-control custom-checkbox">
+        <input class="custom-control-input" asp-for="UserEdit.LockoutEnabled"/>
+        <label class="custom-control-label" asp-for="UserEdit.LockoutEnabled"></label>
+    </div>
+    <div class="form-group row col-3">
+        <label asp-for="UserEdit.LockoutEnd"></label>
+        <input class="form-control" asp-for="UserEdit.LockoutEnd"/>
+    </div>
+    <button class="btn btn-primary mt-2" type="submit">ثبت تغییرات</button>
+</form>
