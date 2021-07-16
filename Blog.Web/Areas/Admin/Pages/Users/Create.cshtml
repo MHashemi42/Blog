@@ -1,0 +1,64 @@
+﻿@page
+@model Blog.Web.Areas.Admin.Pages.Users.CreateModel
+@{
+    ViewData["Title"] = "ساخت حساب کاربری";
+}
+<h1>@ViewData["Title"]</h1>
+<form method="post" class="needs-validation" novalidate>
+    <div class="form-group">
+        <label asp-for="NewUser.UserName"></label>
+        <input asp-for="NewUser.UserName" class="form-control"/>
+        <span asp-validation-for="NewUser.UserName"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="NewUser.FriendlyName"></label>
+        <input asp-for="NewUser.FriendlyName" class="form-control"/>
+        <span asp-validation-for="NewUser.FriendlyName"></span>
+    </div> 
+    <div class="form-group">
+        <label asp-for="NewUser.Email"></label>
+        <input asp-for="NewUser.Email" class="form-control"/>
+        <span asp-validation-for="NewUser.Email"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="NewUser.Password"></label>
+        <input asp-for="NewUser.Password" class="form-control"/>
+        <span asp-validation-for="NewUser.Password"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="NewUser.ConfirmPassword"></label>
+        <input asp-for="NewUser.ConfirmPassword" class="form-control"/>
+        <span asp-validation-for="NewUser.ConfirmPassword"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="NewUser.BirthDay"></label>
+        <input asp-for="NewUser.BirthDay" class="form-control"/>
+        <span asp-validation-for="NewUser.BirthDay"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="NewUser.Location"></label>
+        <input asp-for="NewUser.Location" class="form-control"/>
+        <span asp-validation-for="NewUser.Location"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="NewUser.Bio"></label>
+        <input asp-for="NewUser.Bio" class="form-control"/>
+        <span asp-validation-for="NewUser.Bio"></span>
+    </div>
+    <div class="custom-file">
+        <input asp-for="NewUser.Avatar" class="custom-file-input"
+               aria-describedby="avatarHint" accept=".jpg, .png"/>
+        <label asp-for="NewUser.Avatar" class="custom-file-label">انتخاب کنید...</label>
+        <small id="avatarHint" class="form-text text-muted">تصاویر مجاز برای ارسال از نوع های jpg و png هستند.</small>
+        <span asp-validation-for="NewUser.Avatar"></span>
+    </div>
+    <div asp-validation-summary="ModelOnly" class="text-danger">
+        <span>خطا:</span>
+    </div>
+    <button type="submit" class="btn btn-primary">ثبت</button>
+</form>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}
