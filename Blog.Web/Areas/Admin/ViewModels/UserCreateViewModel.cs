@@ -26,7 +26,11 @@ namespace Blog.Web.Areas.Admin.ViewModels
         [Required(ErrorMessage = "لطفا {0} خود را وارد نمائید.")]
         [EmailAddress(ErrorMessage = "{0} نامعتبر است.")]
         [Display(Name = "آدرس ایمیل")]
+
         public string Email { get; set; }
+
+        [Display(Name = "تایید ایمیل")]
+        public bool EmailConfirmed { get; set; }
 
         [DataType(DataType.Password)]
         [Required(ErrorMessage = "لطفا {0} خود را وارد نمائید.")]
