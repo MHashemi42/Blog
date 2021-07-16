@@ -4,7 +4,8 @@
     ViewData["Title"] = "ساخت حساب کاربری";
 }
 <h1>@ViewData["Title"]</h1>
-<form method="post" class="needs-validation" novalidate>
+<form method="post" enctype="multipart/form-data" 
+      class="needs-validation" novalidate>
     <div class="form-group">
         <label asp-for="NewUser.UserName"></label>
         <input asp-for="NewUser.UserName" class="form-control"/>
