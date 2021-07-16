@@ -20,14 +20,9 @@ namespace Blog.Data.Extensions
 
             if (string.IsNullOrWhiteSpace(parameters.Query) is false)
             {
-                if (parameters.QueryByUsername)
-                {
-                    source = source.Where(u => u.UserName.Contains(parameters.Query));
-                }
-                if (parameters.QueryByEmail)
-                {
-                    source = source.Where(u => u.Email.Contains(parameters.Query));
-                }
+                source = source.Where(u =>
+                    (parameters.QueryByUsername && u.UserName.Contains(parameters.Query)) ||
+                    (parameters.QueryByEmail && u.Email.Contains(parameters.Query)));
             }
 
             var pagedList = await PagedList<ApplicationUser>
