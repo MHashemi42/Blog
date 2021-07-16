@@ -37,4 +37,13 @@
     <li class="list-group-item">
         نقش ها: @(string.IsNullOrWhiteSpace(Model.UserRoles) ? "ندارد" : Model.UserRoles)
     </li>
+    <li class="list-group-item">
+        تایید ایمیل: @Model.ApplicationUser.EmailConfirmed
+    </li>
+    <li class="list-group-item">
+        امکان مسدود کردن حساب: @Model.ApplicationUser.LockoutEnabled
+    </li>
+    <li class="list-group-item">
+        مدت زمان مسدود بودن حساب: @Model.ApplicationUser.LockoutEnd?.DateTime.ToShortDateString()
+    </li>
 </ul>
