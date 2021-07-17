@@ -14,5 +14,8 @@ namespace Blog.Data.Entities
         public string Location { get; set; }
         public string Bio { get; set; }
         public string AvatarName { get; set; }
+
+        public ICollection<Post> Posts { get; set; }
+        public ICollection<Post> ModifiedPost { get; set; }
     }
 }
