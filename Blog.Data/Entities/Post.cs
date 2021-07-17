@@ -21,5 +21,6 @@ namespace Blog.Data.Entities
         public ApplicationUser Author { get; set; }
         public ApplicationUser Modifier { get; set; }
         public ICollection<Label> Labels { get; set; }
+        public ICollection<Comment> Comments { get; set; }
     }
 }

@@ -19,6 +19,7 @@ namespace Blog.Data
 
         public DbSet<Post> Posts { get; set; }
         public DbSet<Label> Labels { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -80,6 +81,30 @@ namespace Blog.Data
 
                 label.HasMany(l => l.Posts)
                      .WithMany(p => p.Labels);
+            });
+
+            builder.Entity<Comment>(comment =>
+            {
+                comment.HasKey(c => c.Id);
+
+                comment.Property(c => c.Content)
+                       .HasMaxLength(1000)
+                       .IsRequired();
+
+                comment.HasOne(c => c.Parent)
+                       .WithMany(c => c.Children)
+                       .HasForeignKey(c => c.ParentId)
+                       .OnDelete(DeleteBehavior.Restrict);
+
+                comment.HasOne(c => c.Post)
+                       .WithMany(p => p.Comments)
+                       .HasForeignKey(c => c.PostId)
+                       .OnDelete(DeleteBehavior.Cascade);
+
+                comment.HasOne(c => c.User)
+                       .WithMany(u => u.Comments)
+                       .HasForeignKey(c => c.UserId)
+                       .OnDelete(DeleteBehavior.Restrict);
             });
         }
     }
