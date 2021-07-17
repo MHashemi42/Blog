@@ -68,6 +68,18 @@ namespace Blog.Data
                     .HasForeignKey(p => p.ModifierId)
                     .OnDelete(DeleteBehavior.Restrict);
             });
+
+            builder.Entity<Label>(label =>
+            {
+                label.HasKey(l => l.Id);
+
+                label.Property(l => l.Name)
+                    .HasMaxLength(25)
+                    .IsRequired();
+
+                label.HasMany(l => l.Posts)
+                    .WithMany(p => p.Labels);
+            });
         }
     }
 }
