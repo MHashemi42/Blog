@@ -18,6 +18,7 @@ namespace Blog.Data
         }
 
         public DbSet<Post> Posts { get; set; }
+        public DbSet<Label> Labels { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -74,11 +75,11 @@ namespace Blog.Data
                 label.HasKey(l => l.Id);
 
                 label.Property(l => l.Name)
-                    .HasMaxLength(25)
-                    .IsRequired();
+                     .HasMaxLength(25)
+                     .IsRequired();
 
                 label.HasMany(l => l.Posts)
-                    .WithMany(p => p.Labels);
+                     .WithMany(p => p.Labels);
             });
         }
     }
