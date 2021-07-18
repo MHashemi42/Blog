@@ -1,6 +1,7 @@
 using Blog.Data;
 using Blog.Data.Entities;
 using Blog.Data.Identity;
+using Blog.Data.Repositories;
 using Blog.Web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -69,6 +70,8 @@ namespace Blog.Web
             {
                 c.BaseAddress = new Uri("https://www.google.com/recaptcha/api/siteverify");
             });
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 
         public void Configure(IApplicationBuilder app, 
