@@ -9,7 +9,7 @@ namespace Blog.Data.Repositories
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        private readonly DbSet<T> _dbSet;
+        protected readonly DbSet<T> _dbSet;
 
         public Repository(DbContext dbContext)
         {
