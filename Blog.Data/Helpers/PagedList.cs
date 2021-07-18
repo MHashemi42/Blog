@@ -30,6 +30,9 @@ namespace Blog.Data.Helpers
         public static async Task<PagedList<T>> ToPagedListAsync(
             IQueryable<T> source, int pageNumber, int pageSize)
         {
+            pageNumber = pageNumber < 1 ? 1 : pageNumber;
+            pageSize = pageSize < 1 ? 1 : pageSize;
+
             var count = await source.CountAsync();
             var items = await source
                 .Skip((pageNumber - 1) * pageSize)
