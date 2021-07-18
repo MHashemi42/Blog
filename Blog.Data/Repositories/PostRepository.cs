@@ -13,5 +13,11 @@ namespace Blog.Data.Repositories
         public PostRepository(BlogDbContext dbContext) : base(dbContext)
         {
         }
+
+        public override Task AddAsync(Post entity)
+        {
+            entity.CreatedDate = DateTime.UtcNow;
+            return base.AddAsync(entity);
+        }
     }
 }
