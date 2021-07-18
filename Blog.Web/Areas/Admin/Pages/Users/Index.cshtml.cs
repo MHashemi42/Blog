@@ -30,11 +30,6 @@ namespace Blog.Web.Areas.Admin.Pages.Users
 
         public async Task<IActionResult> OnGet()
         {
-            if (Parameters.PageNumber < 1)
-            {
-                return RedirectToPage("Index", new { pageNumber = 1 });
-            }
-
             Users = await _userManager.GetUsersAsync(Parameters);
             PreviousDisabled = Users.HasPrevious ? string.Empty : "disabled";
             NextDisabled = Users.HasNext ? string.Empty : "disabled";
