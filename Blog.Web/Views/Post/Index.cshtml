@@ -1,0 +1,20 @@
+﻿@model PagedList<Blog.Data.Entities.Post>
+
+<table class="table table-bordered">
+    <tbody>
+        @foreach (var post in Model)
+        {
+            <tr>
+                <td>@post.Id</td>
+                <td>@post.Title</td>
+                <td>@post.CreatedDate</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<vc:pagination has-previous="@Model.HasPrevious"
+               has-next="@Model.HasNext"
+               current-page="@Model.CurrentPage"
+               >
+</vc:pagination>
