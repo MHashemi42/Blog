@@ -1,4 +1,7 @@
 ﻿using Blog.Data.Entities;
+using Blog.Data.Helpers;
+using Blog.Data.Models;
+using Blog.Data.Models.Base;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,10 +17,21 @@ namespace Blog.Data.Repositories
         {
         }
 
-        public override Task AddAsync(Post entity)
+        public override async Task AddAsync(Post entity)
         {
             entity.CreatedDate = DateTime.UtcNow;
-            return base.AddAsync(entity);
+            await base.AddAsync(entity);
+        }
+
+        public async Task<PagedList<Post>> GetPagedListAsync(PostParameters parameters)
+        {
+            if (parameters is null)
+            {
+                throw new ArgumentNullException(paramName: nameof(parameters));
+            }
+            
+            return await PagedList<Post>
+                .ToPagedListAsync(source: _dbSet, parameters.PageNumber, parameters.PageSize);
         }
     }
 }
