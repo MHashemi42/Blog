@@ -31,9 +31,6 @@ namespace Blog.Web.Areas.Admin.Pages.Users
         public async Task<IActionResult> OnGet()
         {
             Users = await _userManager.GetUsersAsync(Parameters);
-            PreviousDisabled = Users.HasPrevious ? string.Empty : "disabled";
-            NextDisabled = Users.HasNext ? string.Empty : "disabled";
-
             return Page();
         }
     }
