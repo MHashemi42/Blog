@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Blog.Data.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,25 @@ namespace Blog.Data
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly DbContext _dbContext;
+        private readonly BlogDbContext _dbContext;
 
-        public UnitOfWork(DbContext dbContext)
+        public UnitOfWork(BlogDbContext dbContext)
         {
             _dbContext = dbContext;
+        }
+
+        private IPostRepository _postRepository;
+        public IPostRepository PostRepository
+        {
+            get
+            {
+                if (_postRepository is null)
+                {
+                    _postRepository = new PostRepository(_dbContext);
+                }
+
+                return _postRepository;
+            }
         }
 
         public async Task<int> SaveChangesAsync()

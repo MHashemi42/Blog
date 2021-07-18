@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace Blog.Data
 {
-    public interface IUnitOfWork 
+    public interface IUnitOfWork
     {
+        IPostRepository PostRepository { get; }
         Task<int> SaveChangesAsync();
     }
 }
