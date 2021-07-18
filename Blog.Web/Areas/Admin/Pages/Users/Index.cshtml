@@ -61,15 +61,7 @@
     </tbody>
 </table>
 
-<nav>
-    <ul class="pagination">
-        <li class="page-item @Model.PreviousDisabled">
-            <a class="page-link"
-               asp-route-pageNumber="@(Model.Users.CurrentPage - 1)">Previous</a>
-        </li>
-        <li class="page-item @Model.NextDisabled">
-            <a class="page-link"
-               asp-route-pageNumber="@(Model.Users.CurrentPage + 1)">Next</a>
-        </li>
-    </ul>
-</nav>
+<vc:pagination has-previous="@Model.Users.HasPrevious" 
+               has-next="@Model.Users.HasNext"
+               current-page="@Model.Users.CurrentPage">
+</vc:pagination>
