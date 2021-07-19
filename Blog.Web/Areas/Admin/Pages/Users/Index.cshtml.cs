@@ -17,11 +17,9 @@ namespace Blog.Web.Areas.Admin.Pages.Users
     {
         private readonly UserManager<ApplicationUser> _userManager;
 
-        [FromQuery]
+        [BindProperty(SupportsGet = true)]
         public ApplicationUserParameters Parameters { get; set; }
         public PagedList<ApplicationUser> Users { get; set; }
-        public string PreviousDisabled { get; private set; }
-        public string NextDisabled { get; private set; }
 
         public IndexModel(UserManager<ApplicationUser> userManager)
         {
