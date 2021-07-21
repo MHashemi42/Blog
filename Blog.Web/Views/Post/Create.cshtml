@@ -36,7 +36,9 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/29.0.0/classic/ckeditor.js"></script>
     <script>
         ClassicEditor
-            .create(document.querySelector('#Description'))
+            .create(document.querySelector('#Description'), {
+                language: 'fa'
+            })
             .catch(error => {
                 console.error(error);
             });
