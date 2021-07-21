@@ -37,7 +37,8 @@
     <script>
         ClassicEditor
             .create(document.querySelector('#Description'), {
-                language: 'fa'
+                language: 'fa',
+                ckfinder: { uploadUrl: '@Url.Action("UploadImage", "Post")' }
             })
             .catch(error => {
                 console.error(error);
