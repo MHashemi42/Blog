@@ -3,8 +3,10 @@ using Blog.Data.Entities;
 using Blog.Data.Models;
 using Blog.Data.Repositories;
 using Blog.Web.ViewModels;
+using Ganss.XSS;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -104,6 +106,28 @@ namespace Blog.Web.Controllers
             };
 
             return Ok(success);
+        }
+
+        [Authorize(Roles = "Admin, Writer")]
+        public async Task<IActionResult> Details(int id)
+        {
+            var post = await _unitOfWork.PostRepository.GetByIdAsync(id);
+            if (post is null)
+            {
+                return NotFound();
+            }
+
+            var htmlSanitizer = new HtmlSanitizer();
+            var sanitizedBody = htmlSanitizer.Sanitize(post.Body);
+
+            ReadPostViewModel viewModel = new()
+            {
+                Title = post.Title,
+                Description = post.Description,
+                Body = new HtmlString(sanitizedBody)
+            };
+
+            return View(viewModel);
         }
     }
 }
