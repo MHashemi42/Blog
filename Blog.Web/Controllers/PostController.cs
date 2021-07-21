@@ -129,5 +129,56 @@ namespace Blog.Web.Controllers
 
             return View(viewModel);
         }
+
+        [Authorize(Roles = "Admin, Writer")]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var post = await _unitOfWork.PostRepository.GetByIdAsync(id);
+            if (post is null)
+            {
+                return NotFound();
+            }
+
+            UpdatePostViewModel viewModel = new()
+            {
+                Id = post.Id,
+                Title = post.Title,
+                Description = post.Description,
+                Body = post.Body
+            };
+
+            return View(viewModel);
+        }
+
+        [Authorize(Roles = "Admin, Writer")]
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, UpdatePostViewModel viewModel)
+        {
+            if (viewModel is null && (viewModel.Id != id))
+            {
+                return BadRequest();
+            }
+
+            var post = await _unitOfWork.PostRepository.GetByIdAsync(id);
+            if (post is null)
+            {
+                return NotFound();
+            }
+
+            var nameIdentifier = User.Claims
+                .Single(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            var modifierId = int.Parse(nameIdentifier);
+
+            post.Title = viewModel.Title;
+            post.Description = viewModel.Description;
+            post.Body = viewModel.Body;
+            post.IsHidden = viewModel.IsHidden;
+            post.ModifiedDate = DateTime.UtcNow;
+            post.ModifierId = modifierId;
+
+            await _unitOfWork.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Details), new { id });
+        }
     }
 }

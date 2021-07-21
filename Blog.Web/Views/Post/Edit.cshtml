@@ -1,0 +1,43 @@
+﻿@model UpdatePostViewModel
+
+<form method="post" class="needs-validation" novalidate>
+    <div class="form-group">
+        <label asp-for="Title"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Body"></label>
+        <textarea asp-for="Body" class="form-control"></textarea>
+        <span asp-validation-for="Body"></span>
+    </div>
+    <div class="custom-control custom-checkbox">
+        <input asp-for="IsHidden" class="custom-control-input" />
+        <label asp-for="IsHidden" class="custom-control-label"></label>
+    </div>
+    <div asp-validation-summary="ModelOnly" class="text-danger">
+        <span>خطا:</span>
+    </div>
+    <button type="submit" class="btn btn-primary">ثبت</button>
+</form>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+    <script src="https://cdn.ckeditor.com/ckeditor5/29.0.0/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#Body'), {
+                language: 'fa',
+                ckfinder: { uploadUrl: '@Url.Action("UploadImage", "Post")' }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+}
