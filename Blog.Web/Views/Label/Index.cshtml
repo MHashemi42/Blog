@@ -1,0 +1,13 @@
+﻿@model IEnumerable<Blog.Data.Entities.Label>
+
+<h1>Labels</h1>
+<table class="table table-bordered">
+    <tbody>
+        @foreach (var label in Model)
+        {
+            <tr>
+                <td>@label.Name</td>
+            </tr>
+        }
+    </tbody>
+</table>
