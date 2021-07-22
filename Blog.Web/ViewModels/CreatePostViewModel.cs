@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -26,5 +27,7 @@ namespace Blog.Web.ViewModels
 
         [Display(Name = "نمایش پست")]
         public bool IsHidden { get; set; } = true;
+
+        public string[] Labels { get; set; } = Array.Empty<string>();
     }
 }
