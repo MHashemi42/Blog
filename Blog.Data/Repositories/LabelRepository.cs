@@ -13,5 +13,10 @@ namespace Blog.Data.Repositories
         public LabelRepository(BlogDbContext dbContext) : base(dbContext)
         {
         }
+
+        public async Task<bool> IsExist(string name)
+        {
+            return await _dbSet.AnyAsync(label => label.Name == name);
+        }
     }
 }

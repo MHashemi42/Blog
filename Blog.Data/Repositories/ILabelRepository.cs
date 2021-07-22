@@ -9,5 +9,6 @@ namespace Blog.Data.Repositories
 {
     public interface ILabelRepository : IRepository<Label>
     {
+        Task<bool> IsExist(string name);
     }
 }
