@@ -23,6 +23,12 @@ namespace Blog.Data.Repositories
             await base.AddAsync(entity);
         }
 
+        public async Task<Post> GetByIdWithLabelsAsync(int id)
+        {
+            return await _dbSet.Include(p => p.Labels)
+                .SingleOrDefaultAsync(p => p.Id == id);
+        }
+
         public async Task<PagedList<Post>> GetPagedListAsync(PostParameters parameters)
         {
             if (parameters is null)

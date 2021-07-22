@@ -12,5 +12,6 @@ namespace Blog.Data.Repositories
     public interface IPostRepository : IRepository<Post>
     {
         Task<PagedList<Post>> GetPagedListAsync(PostParameters parameters);
+        Task<Post> GetByIdWithLabelsAsync(int id);
     }
 }
