@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -54,6 +55,17 @@ namespace Blog.Web.Controllers
                 return View();
             }
 
+            List<Label> labels = new();
+            foreach (var labelId in viewModel.LabelIds)
+            {
+                var label = await _unitOfWork.LabelRepository.GetByIdAsync(labelId);
+                if (label is null)
+                {
+                    return BadRequest();
+                }
+                labels.Add(label);
+            }
+
             var nameIdentifier = User.Claims
                 .Single(c => c.Type == ClaimTypes.NameIdentifier).Value;
             var authorId = int.Parse(nameIdentifier);
@@ -64,7 +76,8 @@ namespace Blog.Web.Controllers
                 Title = viewModel.Title,
                 Description = viewModel.Description,
                 Body = viewModel.Body,
-                IsHidden = viewModel.IsHidden
+                IsHidden = viewModel.IsHidden,
+                Labels = labels
             };
 
             await _unitOfWork.PostRepository.AddAsync(post);
