@@ -124,7 +124,7 @@ namespace Blog.Web.Controllers
         [Authorize(Roles = "Admin, Writer")]
         public async Task<IActionResult> Details(int id)
         {
-            var post = await _unitOfWork.PostRepository.GetByIdAsync(id);
+            var post = await _unitOfWork.PostRepository.GetByIdWithLabelsAsync(id);
             if (post is null)
             {
                 return NotFound();
@@ -137,7 +137,8 @@ namespace Blog.Web.Controllers
             {
                 Title = post.Title,
                 Description = post.Description,
-                Body = new HtmlString(sanitizedBody)
+                Body = new HtmlString(sanitizedBody),
+                Labels = post.Labels.Select(label => label.Name)
             };
 
             return View(viewModel);

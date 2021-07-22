@@ -11,5 +11,6 @@ namespace Blog.Web.ViewModels
         public string Title { get; set; }
         public string Description { get; set; }
         public HtmlString Body { get; set; }
+        public IEnumerable<string> Labels { get; set; }
     }
 }

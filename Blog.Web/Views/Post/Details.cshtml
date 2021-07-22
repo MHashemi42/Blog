@@ -3,3 +3,9 @@
 <p>@Model.Title</p>
 <p>@Model.Description</p>
 <div>@Model.Body</div>
+<ul>
+    @foreach (var label in Model.Labels)
+    {
+        <li>@label</li>
+    }
+</ul>
