@@ -19,11 +19,12 @@ namespace Blog.Web.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IActionResult> Index()
+        [Authorize(Roles = "Admin, Writer")]
+        public async Task<IActionResult> GetLabels()
         {
-            var labels = await _unitOfWork.LabelRepository.GetAllAsync();
+            var labels = (await _unitOfWork.LabelRepository.GetAllAsync()).Select(x => x.Name);
 
-            return View(labels);
+            return Ok(labels);
         }
 
         [Authorize(Roles = "Admin, Writer")]
