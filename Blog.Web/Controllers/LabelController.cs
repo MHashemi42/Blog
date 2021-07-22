@@ -22,7 +22,8 @@ namespace Blog.Web.Controllers
         [Authorize(Roles = "Admin, Writer")]
         public async Task<IActionResult> GetLabels()
         {
-            var labels = (await _unitOfWork.LabelRepository.GetAllAsync()).Select(x => x.Name);
+            var labels = (await _unitOfWork.LabelRepository.GetAllAsync())
+                .Select(x => new { Id = x.Id, Name = x.Name });
 
             return Ok(labels);
         }
