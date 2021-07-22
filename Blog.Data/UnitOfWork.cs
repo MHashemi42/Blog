@@ -31,6 +31,20 @@ namespace Blog.Data
             }
         }
 
+        private ILabelRepository _labelRepository;
+        public ILabelRepository LabelRepository
+        {
+            get
+            {
+                if (_labelRepository is null)
+                {
+                    _labelRepository = new LabelRepository(_dbContext);
+                }
+
+                return _labelRepository;
+            }
+        }
+
         public async Task<int> SaveChangesAsync()
         {
             return await _dbContext.SaveChangesAsync();

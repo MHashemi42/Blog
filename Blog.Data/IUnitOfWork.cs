@@ -10,6 +10,7 @@ namespace Blog.Data
     public interface IUnitOfWork
     {
         IPostRepository PostRepository { get; }
+        ILabelRepository LabelRepository { get; }
         Task<int> SaveChangesAsync();
     }
 }
