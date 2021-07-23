@@ -9,10 +9,12 @@ namespace Blog.Data.Repositories
 {
     public class Repository<T> : IRepository<T> where T : class
     {
+        protected readonly BlogDbContext _dbcontext;
         protected readonly DbSet<T> _dbSet;
 
-        public Repository(DbContext dbContext)
+        public Repository(BlogDbContext dbContext)
         {
+            _dbcontext = dbContext;
             _dbSet = dbContext.Set<T>();
         }
 
