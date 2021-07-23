@@ -14,6 +14,16 @@ namespace Blog.Data.Repositories
         {
         }
 
+        public async Task<IEnumerable<Label>> GetAllByPostId(int postId)
+        {
+            var labels = await _dbcontext.Posts
+                .Where(p => p.Id == postId)
+                .SelectMany(p => p.Labels)
+                .ToListAsync();
+
+            return labels;
+        }
+
         public async Task<bool> IsExist(string name)
         {
             return await _dbSet.AnyAsync(label => label.Name == name);
