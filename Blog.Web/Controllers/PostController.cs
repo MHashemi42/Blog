@@ -147,7 +147,7 @@ namespace Blog.Web.Controllers
         [Authorize(Roles = "Admin, Writer")]
         public async Task<IActionResult> Edit(int id)
         {
-            var post = await _unitOfWork.PostRepository.GetByIdAsync(id);
+            var post = await _unitOfWork.PostRepository.GetByIdWithLabelsAsync(id);
             if (post is null)
             {
                 return NotFound();
@@ -158,7 +158,8 @@ namespace Blog.Web.Controllers
                 Id = post.Id,
                 Title = post.Title,
                 Description = post.Description,
-                Body = post.Body
+                Body = post.Body,
+                Labels = await CreateSelectListLabels(post.Labels)
             };
 
             return View(viewModel);
@@ -168,15 +169,26 @@ namespace Blog.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(int id, UpdatePostViewModel viewModel)
         {
-            if (viewModel is null && (viewModel.Id != id))
+            if (viewModel is null || (viewModel.Id != id))
             {
                 return BadRequest();
             }
 
-            var post = await _unitOfWork.PostRepository.GetByIdAsync(id);
+            var post = await _unitOfWork.PostRepository.GetByIdWithLabelsAsync(id);
             if (post is null)
             {
                 return NotFound();
+            }
+
+            post.Labels.Clear();
+            foreach (var labelId in viewModel.LabelIds)
+            {
+                var label = await _unitOfWork.LabelRepository.GetByIdAsync(labelId);
+                if (label is null)
+                {
+                    return BadRequest();
+                }
+                post.Labels.Add(label);
             }
 
             var nameIdentifier = User.Claims
@@ -193,6 +205,26 @@ namespace Blog.Web.Controllers
             await _unitOfWork.SaveChangesAsync();
 
             return RedirectToAction(nameof(Details), new { id });
+        }
+
+        private async Task<List<SelectListItem>> CreateSelectListLabels(
+            IEnumerable<Label> selectedLabels)
+        {
+            var labels = await _unitOfWork.LabelRepository.GetAllAsync();
+
+            var selectList = new List<SelectListItem>();
+            foreach (var label in labels)
+            {
+                bool isSelected = selectedLabels.Select(x => x.Id).Contains(label.Id);
+                selectList.Add(new SelectListItem
+                {
+                    Text = label.Name,
+                    Value = label.Id.ToString(),
+                    Selected = isSelected
+                });
+            }
+
+            return selectList;
         }
     }
 }
