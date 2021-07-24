@@ -62,6 +62,17 @@ namespace Blog.Web.Controllers
                 return View(viewModel);
             }
 
+            var isSlugExist = await _unitOfWork.PostRepository
+                .IsSlugExist(viewModel.Slug);
+            if (isSlugExist)
+            {
+                ModelState.AddModelError(nameof(CreatePostViewModel.Slug),
+                    "اسلاگ مورد نظر از قبل استفاده شده است.");
+                viewModel.Labels = await CreateSelectListLabels();
+
+                return View(viewModel);
+            }
+
             List<Label> labels = new();
             foreach (var labelId in viewModel.LabelIds)
             {
@@ -81,6 +92,7 @@ namespace Blog.Web.Controllers
             {
                 AuthorId = authorId,
                 Title = viewModel.Title,
+                Slug = viewModel.Slug,
                 Description = viewModel.Description,
                 Body = viewModel.Body,
                 IsHidden = viewModel.IsHidden,
