@@ -140,13 +140,18 @@ namespace Blog.Web.Controllers
             return Ok(success);
         }
 
-        [Route("[controller]/{id:int}")]
-        public async Task<IActionResult> Details(int id)
+        [Route("[controller]/{id:int}/{slug?}")]
+        public async Task<IActionResult> Details(int id, string slug)
         {
             var post = await _unitOfWork.PostRepository.GetByIdWithLabelsAsync(id);
             if (post is null)
             {
                 return NotFound();
+            }
+
+            if (string.IsNullOrWhiteSpace(slug))
+            {
+                return RedirectToAction(nameof(Details), new { post.Id, post.Slug });
             }
 
             var htmlSanitizer = new HtmlSanitizer();
