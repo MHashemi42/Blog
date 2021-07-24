@@ -13,5 +13,6 @@ namespace Blog.Data.Repositories
     {
         Task<PagedList<Post>> GetPagedListAsync(PostParameters parameters);
         Task<Post> GetByIdWithLabelsAsync(int id);
+        Task<bool> IsSlugExist(string slug);
     }
 }
