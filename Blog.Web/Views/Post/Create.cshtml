@@ -23,7 +23,7 @@
     <div class="form-group">
         <label asp-for="LabelIds"></label>
         <select class="custom-select" multiple
-                asp-for="LabelIds">
+                asp-for="LabelIds" asp-items="@Model.Labels">
         </select>
     </div>
     <div class="custom-control custom-checkbox">
@@ -49,19 +49,5 @@
             .catch(error => {
                 console.error(error);
             });
-
-        $(document).ready(function () {
-            $.ajax({
-                type: 'GET',
-                url: '@Url.Action("GetLabels", "Label")',
-                success: function (data) {
-                    var options = '';
-                    for (var i = 0; i < data.length; i++) {
-                        options += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
-                    }
-                    $("#LabelIds").html(options);
-                }
-            });
-        });
     </script>
 }

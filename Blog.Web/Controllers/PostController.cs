@@ -41,9 +41,14 @@ namespace Blog.Web.Controllers
         }
 
         [Authorize(Roles = "Admin, Writer")]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            CreatePostViewModel viewmodel = new()
+            {
+                Labels = await CreateSelectListLabels()
+            };
+
+            return View(viewmodel);
         }
 
         [Authorize(Roles = "Admin, Writer")]
@@ -52,7 +57,9 @@ namespace Blog.Web.Controllers
         {
             if (ModelState.IsValid is false)
             {
-                return View();
+                viewModel.Labels = await CreateSelectListLabels();
+
+                return View(viewModel);
             }
 
             List<Label> labels = new();
@@ -230,6 +237,11 @@ namespace Blog.Web.Controllers
             }
 
             return selectList;
+        }
+
+        private async Task<List<SelectListItem>> CreateSelectListLabels()
+        {
+            return await CreateSelectListLabels(Enumerable.Empty<int>());
         }
     }
 }

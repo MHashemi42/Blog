@@ -28,6 +28,8 @@ namespace Blog.Web.ViewModels
         [Display(Name = "نمایش پست")]
         public bool IsHidden { get; set; } = true;
 
+        public List<SelectListItem> Labels { get; set; }
+
         public int[] LabelIds { get; set; } = Array.Empty<int>();
     }
 }
