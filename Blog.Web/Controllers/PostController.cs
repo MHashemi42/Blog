@@ -159,7 +159,7 @@ namespace Blog.Web.Controllers
                 Title = post.Title,
                 Description = post.Description,
                 Body = post.Body,
-                Labels = await CreateSelectListLabels(post.Labels)
+                Labels = await CreateSelectListLabels(post.Labels.Select(x => x.Id))
             };
 
             return View(viewModel);
@@ -169,7 +169,12 @@ namespace Blog.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(int id, UpdatePostViewModel viewModel)
         {
-            if (viewModel is null || (viewModel.Id != id))
+            if (ModelState.IsValid is false)
+            {
+                viewModel.Labels = await CreateSelectListLabels(viewModel.LabelIds);
+                return View(viewModel);
+            }
+            if (viewModel.Id != id)
             {
                 return BadRequest();
             }
@@ -208,14 +213,14 @@ namespace Blog.Web.Controllers
         }
 
         private async Task<List<SelectListItem>> CreateSelectListLabels(
-            IEnumerable<Label> selectedLabels)
+            IEnumerable<int> selectedLabelIds)
         {
             var labels = await _unitOfWork.LabelRepository.GetAllAsync();
 
             var selectList = new List<SelectListItem>();
             foreach (var label in labels)
             {
-                bool isSelected = selectedLabels.Select(x => x.Id).Contains(label.Id);
+                bool isSelected = selectedLabelIds.Contains(label.Id);
                 selectList.Add(new SelectListItem
                 {
                     Text = label.Name,
