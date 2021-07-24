@@ -181,6 +181,7 @@ namespace Blog.Web.Controllers
             {
                 Id = post.Id,
                 Title = post.Title,
+                Slug = post.Slug,
                 Description = post.Description,
                 Body = post.Body,
                 Labels = await CreateSelectListLabels(post.Labels.Select(x => x.Id))
@@ -209,6 +210,17 @@ namespace Blog.Web.Controllers
                 return NotFound();
             }
 
+            var isSlugExist = await _unitOfWork.PostRepository
+                .IsSlugExist(viewModel.Slug);
+            if (isSlugExist && post.Slug != viewModel.Slug)
+            {
+                ModelState.AddModelError(nameof(UpdatePostViewModel.Slug),
+                    "اسلاگ مورد نظر از قبل استفاده شده است.");
+                viewModel.Labels = await CreateSelectListLabels(viewModel.LabelIds);
+
+                return View(viewModel);
+            }
+
             post.Labels.Clear();
             foreach (var labelId in viewModel.LabelIds)
             {
@@ -225,6 +237,7 @@ namespace Blog.Web.Controllers
             var modifierId = int.Parse(nameIdentifier);
 
             post.Title = viewModel.Title;
+            post.Slug = viewModel.Slug;
             post.Description = viewModel.Description;
             post.Body = viewModel.Body;
             post.IsHidden = viewModel.IsHidden;
@@ -233,7 +246,7 @@ namespace Blog.Web.Controllers
 
             await _unitOfWork.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Details), new { id });
+            return RedirectToAction(nameof(Details), new { post.Id, post.Slug});
         }
 
         private async Task<List<SelectListItem>> CreateSelectListLabels(
