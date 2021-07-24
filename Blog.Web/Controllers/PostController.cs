@@ -128,7 +128,7 @@ namespace Blog.Web.Controllers
             return Ok(success);
         }
 
-        [Authorize(Roles = "Admin, Writer")]
+        [Route("[controller]/{id:int}")]
         public async Task<IActionResult> Details(int id)
         {
             var post = await _unitOfWork.PostRepository.GetByIdWithLabelsAsync(id);
