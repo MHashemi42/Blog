@@ -196,7 +196,8 @@ namespace Blog.Web.Controllers
         {
             if (ModelState.IsValid is false)
             {
-                viewModel.Labels = await CreateSelectListLabels(viewModel.LabelIds);
+                viewModel.Labels = await CreateSelectListLabels(
+                    viewModel.LabelIds ?? Array.Empty<int>());
                 return View(viewModel);
             }
             if (viewModel.Id != id)
@@ -212,24 +213,31 @@ namespace Blog.Web.Controllers
 
             var isSlugExist = await _unitOfWork.PostRepository
                 .IsSlugExist(viewModel.Slug);
-            if (isSlugExist && post.Slug != viewModel.Slug)
+            var isNewSlug = post.Slug != viewModel.Slug;
+
+            if (isSlugExist && isNewSlug)
             {
                 ModelState.AddModelError(nameof(UpdatePostViewModel.Slug),
                     "اسلاگ مورد نظر از قبل استفاده شده است.");
-                viewModel.Labels = await CreateSelectListLabels(viewModel.LabelIds);
+
+                viewModel.Labels = await CreateSelectListLabels(
+                    viewModel.LabelIds ?? Array.Empty<int>());
 
                 return View(viewModel);
             }
 
             post.Labels.Clear();
-            foreach (var labelId in viewModel.LabelIds)
+            if (viewModel.LabelIds is object)
             {
-                var label = await _unitOfWork.LabelRepository.GetByIdAsync(labelId);
-                if (label is null)
+                foreach (var labelId in viewModel.LabelIds)
                 {
-                    return BadRequest();
+                    var label = await _unitOfWork.LabelRepository.GetByIdAsync(labelId);
+                    if (label is null)
+                    {
+                        return BadRequest();
+                    }
+                    post.Labels.Add(label);
                 }
-                post.Labels.Add(label);
             }
 
             var nameIdentifier = User.Claims

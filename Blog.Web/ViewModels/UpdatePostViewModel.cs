@@ -39,6 +39,6 @@ namespace Blog.Web.ViewModels
         public bool IsHidden { get; set; } = true;
 
         public List<SelectListItem> Labels { get; set; }
-        public int[] LabelIds { get; set; } = Array.Empty<int>();
+        public int[] LabelIds { get; set; }
     }
 }
