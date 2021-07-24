@@ -53,6 +53,13 @@ namespace Blog.Data
                     .HasMaxLength(100)
                     .IsRequired();
 
+                post.Property(p => p.Slug)
+                    .HasMaxLength(100)
+                    .IsRequired();
+
+                post.HasIndex(p => p.Slug)
+                    .IsUnique();
+
                 post.Property(p => p.Description)
                     .HasMaxLength(200)
                     .IsRequired();
