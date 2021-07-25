@@ -29,15 +29,27 @@ namespace Blog.Data.Repositories
                 .SingleOrDefaultAsync(p => p.Id == id);
         }
 
-        public async Task<PagedList<Post>> GetPagedListAsync(PostParameters parameters)
+        public async Task<PagedList<PostSummary>> GetPagedListAsync(PostParameters parameters)
         {
             if (parameters is null)
             {
                 throw new ArgumentNullException(paramName: nameof(parameters));
             }
-            
-            return await PagedList<Post>
-                .ToPagedListAsync(source: _dbSet, parameters.PageNumber, parameters.PageSize);
+
+            var source = _dbSet.Select(p => new PostSummary
+            {
+                Id = p.Id,
+                Title = p.Title,
+                Slug = p.Slug,
+                Description = p.Description,
+                CreatedDate = p.CreatedDate,
+                AuthorFriendlyName = p.Author.FriendlyName,
+                AuthorUserName = p.Author.UserName
+            })
+             .OrderByDescending(p => p.CreatedDate);
+
+            return await PagedList<PostSummary>
+                .ToPagedListAsync(source: source, parameters.PageNumber, parameters.PageSize);
         }
 
         public async Task<bool> IsSlugExist(string slug)
