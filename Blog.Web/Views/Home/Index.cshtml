@@ -1,4 +1,21 @@
-﻿@{ 
-    ViewBag.Title = "صفحه اصلی";
+﻿@model PagedList<Blog.Data.Models.PostSummary>
+@{
+    ViewBag.Title = "Blog";
 }
-<h1>صفحه اصلی</h1>
+
+<nav>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">آخرین مطالب</li>
+    </ol>
+</nav>
+
+@foreach (var postSummary in Model)
+{
+    <partial name="_PostSummary" model="postSummary" />
+    <br />
+}
+<div class="pr-3">
+<vc:pagination has-previous="@Model.HasPrevious"
+               has-next="@Model.HasNext"
+               current-page="@Model.CurrentPage"></vc:pagination>
+</div>
