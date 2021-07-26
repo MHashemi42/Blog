@@ -8,6 +8,10 @@ body {
     grid-template-rows: 1fr auto;
 }
 
+main {
+    margin-top: 5rem;
+}
+
 .field-validation-error {
     color: #dc3545;
     font-size: smaller;
