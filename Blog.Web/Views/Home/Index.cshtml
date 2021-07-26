@@ -11,11 +11,10 @@
 
 @foreach (var postSummary in Model)
 {
-    <partial name="_PostSummary" model="postSummary" />
-    <br />
+    <div class="my-3">
+        <partial name="_PostSummary" model="postSummary" />
+    </div>
 }
-<div class="pr-3">
 <vc:pagination has-previous="@Model.HasPrevious"
                has-next="@Model.HasNext"
                current-page="@Model.CurrentPage"></vc:pagination>
-</div>
