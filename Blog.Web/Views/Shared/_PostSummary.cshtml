@@ -1,10 +1,10 @@
 ﻿@model Blog.Data.Models.PostSummary
 
-<article class="container-fluid">
+<article class="container-fluid p-3 bg-white">
     <a asp-controller="Post" asp-action="Details"
        asp-route-id="@Model.Id" asp-route-slug="@Model.Slug"
        class="text-dark">
-        <h3>@Model.Title</h3>
+        <h4>@Model.Title</h4>
     </a>
     <ul class="list-group list-group-horizontal">
         <li class="list-group-item border-0 p-1">
