@@ -15,5 +15,6 @@ namespace Blog.Data.Models
         public DateTime CreatedDate { get; set; }
         public string AuthorFriendlyName { get; set; }
         public string AuthorUserName { get; set; }
+        public IEnumerable<string> Labels { get; set; }
     }
 }
