@@ -44,7 +44,8 @@ namespace Blog.Data.Repositories
                 Description = p.Description,
                 CreatedDate = p.CreatedDate,
                 AuthorFriendlyName = p.Author.FriendlyName,
-                AuthorUserName = p.Author.UserName
+                AuthorUserName = p.Author.UserName,
+                Labels = p.Labels.Select(x => x.Name)
             })
              .OrderByDescending(p => p.CreatedDate);
 
