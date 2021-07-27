@@ -1,8 +1,13 @@
 ﻿@model ReadPostViewModel
 
+@section Links
+{
+    <link href="~/lib/ckeditor/css/ckeditor.css" rel="stylesheet" asp-append-version="true" />
+}
+
 <p>@Model.Title</p>
 <p>@Model.Description</p>
-<div>@Model.Body</div>
+<div class="ck-content" dir="rtl">@Model.Body</div>
 <ul>
     @foreach (var label in Model.Labels)
     {
