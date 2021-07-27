@@ -1,0 +1,75 @@
+﻿@model string
+
+<script src="/lib/ckeditor/js/ckeditor.js"></script>
+<script>
+        ClassicEditor
+            .create(document.querySelector('#@Model'), {
+                toolbar: {
+                    items: [
+                        'heading',
+                        '|',
+                        'bold',
+                        'italic',
+                        'link',
+                        'bulletedList',
+                        'numberedList',
+                        '|',
+                        'outdent',
+                        'indent',
+                        '|',
+                        'imageUpload',
+                        'blockQuote',
+                        'insertTable',
+                        'mediaEmbed',
+                        'undo',
+                        'redo'
+                    ]
+                },
+                mediaEmbed: {
+                    previewsInData: true,
+                    extraProviders: [
+                        {
+                            name: 'aparat',
+                            url: [
+                                /^aparat\.com\/v\/([\w-]+)/,
+                                /^aparat\.com\/video\/video\/embed\/videohash\/([\w-]+)\/vt\/frame/
+                            ],
+                            html: match => {
+                                const id = match[1];
+
+                                return (
+                                    '<style>.h_iframe-aparat_embed_frame{position:relative;}.h_iframe-aparat_embed_frame .ratio{display:block;width:100%;height:auto;}.h_iframe-aparat_embed_frame iframe{position:absolute;top:0;left:0;width:100%;height:100%;}</style>' +
+                                    '<div class="h_iframe-aparat_embed_frame"><span style="display: block;padding-top: 57%"></span>' +
+                                    `<iframe src="https://www.aparat.com/video/video/embed/videohash/${id}/vt/frame" frameborder="0" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"` +
+                                    '</iframe>' +
+                                    '</div>'
+                                );
+                            }
+                        }
+                    ]
+                },
+                language: 'fa',
+                ckfinder: { uploadUrl: '@Url.Action("UploadImage", "Post")' },
+                image: {
+                    toolbar: [
+                        'imageTextAlternative',
+                        'imageStyle:inline',
+                        'imageStyle:block',
+                        'imageStyle:side'
+                    ]
+                },
+                table: {
+                    contentToolbar: [
+                        'tableColumn',
+                        'tableRow',
+                        'mergeTableCells'
+                    ]
+                }
+            })
+            .then(editor => {
+                window.editor = editor;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+</script>
