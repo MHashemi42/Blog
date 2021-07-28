@@ -23,9 +23,11 @@ namespace Blog.Data.Repositories
             await base.AddAsync(entity);
         }
 
-        public async Task<Post> GetByIdWithLabelsAsync(int id)
+        public override async Task<Post> GetByIdAsync(int id)
         {
-            return await _dbSet.Include(p => p.Labels)
+            return await _dbSet
+                .Include(p => p.Labels)
+                .Include(p => p.Author)
                 .SingleOrDefaultAsync(p => p.Id == id);
         }
 
