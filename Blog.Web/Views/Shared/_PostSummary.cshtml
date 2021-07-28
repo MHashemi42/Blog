@@ -24,13 +24,8 @@
             <span>@Model.CreatedDate.ToShortDateString()</span>
         </li>
     </ul>
-    <p class="mb-2">@Model.Description</p>
-    <ul class="list-group list-group-horizontal">
-        @foreach (var label in Model.Labels)
-        {
-            <li class="list-group-item border-0 p-1">
-                <span class="badge badge-dark">@label</span>
-            </li>
-        }
-    </ul>
+    <p class="mb-3">@Model.Description</p>
+    <div>
+    <partial name="_LabelList" model="Model.Labels" />
+    </div>
 </article>
