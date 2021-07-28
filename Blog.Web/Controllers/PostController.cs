@@ -143,7 +143,7 @@ namespace Blog.Web.Controllers
         [Route("[controller]/{id:int}/{slug?}")]
         public async Task<IActionResult> Details(int id, string slug)
         {
-            var post = await _unitOfWork.PostRepository.GetByIdWithLabelsAsync(id);
+            var post = await _unitOfWork.PostRepository.GetByIdAsync(id);
             if (post is null)
             {
                 return NotFound();
@@ -176,7 +176,7 @@ namespace Blog.Web.Controllers
         [Authorize(Roles = "Admin, Writer")]
         public async Task<IActionResult> Edit(int id)
         {
-            var post = await _unitOfWork.PostRepository.GetByIdWithLabelsAsync(id);
+            var post = await _unitOfWork.PostRepository.GetByIdAsync(id);
             if (post is null)
             {
                 return NotFound();
@@ -210,7 +210,7 @@ namespace Blog.Web.Controllers
                 return BadRequest();
             }
 
-            var post = await _unitOfWork.PostRepository.GetByIdWithLabelsAsync(id);
+            var post = await _unitOfWork.PostRepository.GetByIdAsync(id);
             if (post is null)
             {
                 return NotFound();
