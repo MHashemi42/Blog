@@ -10,10 +10,13 @@
 <div class="bg-white p-3">
     <h2>@Model.Title</h2>
     <div class="row p-3">
-        <img src="~/images/users/@(Model.AuthorAvatar ?? "default.jpg")"
-             title="@Model.AuthorUserName's avatar"
-             class="rounded-circle" style="width: 3rem"
-             asp-append-version="true"/>
+        <a asp-controller="Account" asp-action="Profile"
+           asp-route-username="@Model.AuthorUserName">
+            <img src="~/images/users/@(Model.AuthorAvatar ?? "default.jpg")"
+                 title="@Model.AuthorUserName's avatar"
+                 class="rounded-circle" style="width: 3rem"
+                 asp-append-version="true" />
+        </a>
         <div class="mx-2">
             <div>
                 نویسنده : <a asp-controller="Account" asp-action="Profile"
