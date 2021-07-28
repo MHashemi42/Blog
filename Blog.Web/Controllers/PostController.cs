@@ -167,6 +167,10 @@ namespace Blog.Web.Controllers
                 Title = post.Title,
                 Description = post.Description,
                 Body = new HtmlString(sanitizedBody),
+                CreatedDate = post.CreatedDate,
+                AuthorFriendlyName = post.Author.FriendlyName,
+                AuthorUserName = post.Author.UserName,
+                AuthorAvatar = post.Author.AvatarName,
                 Labels = post.Labels.Select(label => label.Name)
             };
 

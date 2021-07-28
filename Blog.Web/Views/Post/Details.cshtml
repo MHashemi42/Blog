@@ -1,16 +1,39 @@
 ﻿@model ReadPostViewModel
-
+@{ 
+    ViewData["Title"] = Model.Title;
+}
 @section Links
 {
     <link href="~/lib/ckeditor/css/ckeditor.css" rel="stylesheet" asp-append-version="true" />
 }
 
-<p>@Model.Title</p>
-<p>@Model.Description</p>
-<div class="ck-content" dir="rtl">@Model.Body</div>
-<ul>
-    @foreach (var label in Model.Labels)
-    {
-        <li>@label</li>
-    }
-</ul>
+<div class="bg-white p-3">
+    <h2>@Model.Title</h2>
+    <div class="row p-3">
+        <img src="~/images/users/@(Model.AuthorAvatar ?? "default.jpg")"
+             title="@Model.AuthorUserName's avatar"
+             class="rounded-circle" style="width: 3rem"
+             asp-append-version="true"/>
+        <div class="mx-2">
+            <div>
+                نویسنده : <a asp-controller="Account" asp-action="Profile"
+                             asp-route-username="@Model.AuthorUserName"
+                             class="text-dark">
+                    @Model.AuthorFriendlyName
+                </a>
+            </div>
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
+                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
+                </svg>
+                @Model.CreatedDate.ToShortDateString()
+            </div>
+        </div>
+    </div>
+    <p>@Model.Description</p>
+    <div class="ck-content" dir="rtl">@Model.Body</div>
+    <div>
+        <span>برچسب ها:</span>
+        <partial name="_LabelList" model="@Model.Labels" />
+    </div>
+</div>
