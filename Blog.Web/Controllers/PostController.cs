@@ -155,6 +155,11 @@ namespace Blog.Web.Controllers
             }
 
             var htmlSanitizer = new HtmlSanitizer();
+            htmlSanitizer.AllowedAttributes.Add("class");
+            htmlSanitizer.AllowedCssProperties.Add("position");
+            htmlSanitizer.AllowedAttributes.Add("data-oembed-url");
+            htmlSanitizer.AllowedTags.Add("iframe");
+            htmlSanitizer.AllowedTags.Add("style");
             var sanitizedBody = htmlSanitizer.Sanitize(post.Body);
 
             ReadPostViewModel viewModel = new()
