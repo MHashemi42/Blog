@@ -1,5 +1,7 @@
 ﻿using Blog.Data;
 using Blog.Data.Entities;
+using Blog.Data.Helpers;
+using Blog.Data.Models;
 using Blog.Web.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,20 +21,21 @@ namespace Blog.Web.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        [Authorize(Roles = "Admin, Writer")]
-        public async Task<IActionResult> GetLabels()
+        [Route("labels/{label}")]
+        public async Task<IActionResult> Details([FromQuery] PostParameters parameters, string label)
         {
-            var labels = await _unitOfWork.LabelRepository.GetAllAsync();
+            PagedList<PostSummary> postsByLabel = await _unitOfWork.PostRepository
+                .GetPagedListAsync(parameters, label);
 
-            return Ok(labels);
-        }
+            if (postsByLabel.Count < 1)
+            {
+                return NotFound();
+            }
 
-        [Authorize(Roles = "Admin, Writer")]
-        public async Task<IActionResult> GetLabelsByPostId(int postId)
-        {
-            var labels = await _unitOfWork.LabelRepository.GetAllByPostId(postId);
+            ViewBag.Label = postsByLabel.First()
+                .Labels.Single(x => x.Equals(label, StringComparison.OrdinalIgnoreCase));
 
-            return Ok(labels);
+            return View(postsByLabel);
         }
 
         [Authorize(Roles = "Admin, Writer")]

@@ -1,0 +1,20 @@
+﻿@model PagedList<Blog.Data.Models.PostSummary>
+@{
+    ViewData["Title"] = ViewBag.Label;
+}
+
+<nav>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">@ViewData["Title"]</li>
+    </ol>
+</nav>
+
+@foreach (var postSummary in Model)
+{
+    <div class="my-3">
+        <partial name="_PostSummary" model="postSummary" />
+    </div>
+}
+<vc:pagination has-previous="@Model.HasPrevious"
+               has-next="@Model.HasNext"
+               current-page="@Model.CurrentPage"></vc:pagination>
