@@ -32,7 +32,7 @@ namespace Blog.Data.Repositories
         }
 
         public async Task<PagedList<PostSummary>> GetPagedListAsync(
-            PostParameters parameters, string label = "")
+            PostParameters parameters, string labelSlug = "")
         {
             if (parameters is null)
             {
@@ -40,9 +40,9 @@ namespace Blog.Data.Repositories
             }
 
             IQueryable<Post> posts = _dbSet;
-            if (string.IsNullOrWhiteSpace(label) is false)
+            if (string.IsNullOrWhiteSpace(labelSlug) is false)
             {
-                posts = posts.Where(p => p.Labels.Any(x => x.Name == label));
+                posts = posts.Where(p => p.Labels.Any(x => x.Slug == labelSlug));
             }
 
             IQueryable<PostSummary> source = posts
