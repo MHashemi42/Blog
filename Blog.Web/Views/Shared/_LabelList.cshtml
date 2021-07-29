@@ -5,7 +5,10 @@
     @foreach (var label in Model)
     {
         <li class="list-group-item border-0 p-0 mx-1 d-inline">
-            <span class="badge badge-dark">@label.Name</span>
+            <a asp-controller="Label" asp-action="Details"
+               asp-route-labelSlug="@label.Slug">
+                <span class="badge badge-dark">@label.Name</span>
+            </a>
         </li>
     }
 </ul>
