@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Html;
+﻿using Blog.Data.Entities;
+using Microsoft.AspNetCore.Html;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,6 @@ namespace Blog.Web.ViewModels
         public string AuthorFriendlyName { get; set; }
         public string AuthorUserName { get; set; }
         public string AuthorAvatar { get; set; }
-        public IEnumerable<string> Labels { get; set; }
+        public IEnumerable<Label> Labels { get; set; }
     }
 }

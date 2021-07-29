@@ -171,7 +171,7 @@ namespace Blog.Web.Controllers
                 AuthorFriendlyName = post.Author.FriendlyName,
                 AuthorUserName = post.Author.UserName,
                 AuthorAvatar = post.Author.AvatarName,
-                Labels = post.Labels.Select(label => label.Name)
+                Labels = post.Labels
             };
 
             return View(viewModel);
