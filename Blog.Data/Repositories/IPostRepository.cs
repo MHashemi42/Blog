@@ -12,6 +12,7 @@ namespace Blog.Data.Repositories
     public interface IPostRepository : IRepository<Post>
     {
         Task<PagedList<PostSummary>> GetPagedListAsync(PostParameters parameters);
+        Task<PagedList<PostSummary>> GetPagedListAsync(PostParameters parameters, string label);
         Task<bool> IsSlugExist(string slug);
     }
 }

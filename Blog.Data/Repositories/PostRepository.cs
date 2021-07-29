@@ -31,14 +31,22 @@ namespace Blog.Data.Repositories
                 .SingleOrDefaultAsync(p => p.Id == id);
         }
 
-        public async Task<PagedList<PostSummary>> GetPagedListAsync(PostParameters parameters)
+        public async Task<PagedList<PostSummary>> GetPagedListAsync(
+            PostParameters parameters, string label = "")
         {
             if (parameters is null)
             {
                 throw new ArgumentNullException(paramName: nameof(parameters));
             }
 
-            var source = _dbSet.Select(p => new PostSummary
+            IQueryable<Post> posts = _dbSet;
+            if (string.IsNullOrWhiteSpace(label) is false)
+            {
+                posts = posts.Where(p => p.Labels.Any(x => x.Name == label));
+            }
+
+            IQueryable<PostSummary> source = posts
+            .Select(p => new PostSummary
             {
                 Id = p.Id,
                 Title = p.Title,
@@ -49,10 +57,15 @@ namespace Blog.Data.Repositories
                 AuthorUserName = p.Author.UserName,
                 Labels = p.Labels.Select(x => x.Name)
             })
-             .OrderByDescending(p => p.CreatedDate);
+              .OrderByDescending(p => p.CreatedDate);
 
             return await PagedList<PostSummary>
-                .ToPagedListAsync(source: source, parameters.PageNumber, parameters.PageSize);
+                .ToPagedListAsync(source, parameters.PageNumber, parameters.PageSize);
+        }
+
+        public async Task<PagedList<PostSummary>> GetPagedListAsync(PostParameters parameters)
+        {
+            return await GetPagedListAsync(parameters, string.Empty);
         }
 
         public async Task<bool> IsSlugExist(string slug)
