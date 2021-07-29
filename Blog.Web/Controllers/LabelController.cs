@@ -53,22 +53,30 @@ namespace Blog.Web.Controllers
                 return View();
             }
 
-            var isExist = await _unitOfWork.LabelRepository.IsExist(viewModel.Name);
-            if (isExist)
+            var isNameExist = await _unitOfWork.LabelRepository.IsNameExist(viewModel.Name);
+            if (isNameExist)
             {
-                ModelState.AddModelError(nameof(viewModel.Name), "نام برچسب تکراری است.");
+                ModelState.AddModelError(nameof(CreateLabelViewModel.Name), "نام برچسب تکراری است.");
+                return View();
+            }
+
+            var isSlugExist = await _unitOfWork.LabelRepository.IsSlugExist(viewModel.Slug);
+            if (isSlugExist)
+            {
+                ModelState.AddModelError(nameof(CreateLabelViewModel.Slug), "اسلاگ تکراری است.");
                 return View();
             }
 
             Label label = new()
             {
-                Name = viewModel.Name
+                Name = viewModel.Name,
+                Slug = viewModel.Slug
             };
 
             await _unitOfWork.LabelRepository.AddAsync(label);
             await _unitOfWork.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Details), new { label = label.Name });
         }
 
         [Authorize(Roles = "Admin, Writer")]
@@ -109,7 +117,7 @@ namespace Blog.Web.Controllers
                 return NotFound();
             }
 
-            var isExist = await _unitOfWork.LabelRepository.IsExist(viewModel.Name);
+            var isExist = await _unitOfWork.LabelRepository.IsNameExist(viewModel.Name);
             if (isExist)
             {
                 ModelState.AddModelError(nameof(viewModel.Name), "نام برچسب تکراری است.");
