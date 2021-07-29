@@ -86,6 +86,16 @@ namespace Blog.Data
                      .HasMaxLength(25)
                      .IsRequired();
 
+                label.HasIndex(l => l.Name)
+                     .IsUnique();
+
+                label.Property(l => l.Slug)
+                     .HasMaxLength(30)
+                     .IsRequired();
+
+                label.HasIndex(l => l.Slug)
+                     .IsUnique();
+
                 label.HasMany(l => l.Posts)
                      .WithMany(p => p.Labels);
             });
