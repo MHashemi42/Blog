@@ -24,9 +24,14 @@ namespace Blog.Data.Repositories
             return labels;
         }
 
-        public async Task<bool> IsExist(string name)
+        public async Task<bool> IsNameExist(string name)
         {
             return await _dbSet.AnyAsync(label => label.Name == name);
+        }
+
+        public async Task<bool> IsSlugExist(string slug)
+        {
+            return await _dbSet.AnyAsync(label => label.Slug == slug);
         }
     }
 }

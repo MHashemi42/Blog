@@ -9,7 +9,8 @@ namespace Blog.Data.Repositories
 {
     public interface ILabelRepository : IRepository<Label>
     {
-        Task<bool> IsExist(string name);
+        Task<bool> IsNameExist(string name);
+        Task<bool> IsSlugExist(string slug);
         Task<IEnumerable<Label>> GetAllByPostId(int postId);
     }
 }
