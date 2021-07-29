@@ -1,11 +1,11 @@
-﻿@model IEnumerable<string>
+﻿@model IEnumerable<Blog.Data.Entities.Label>
 
 
 <ul class="list-group list-group-horizontal d-inline">
     @foreach (var label in Model)
     {
         <li class="list-group-item border-0 p-0 mx-1 d-inline">
-            <span class="badge badge-dark">@label</span>
+            <span class="badge badge-dark">@label.Name</span>
         </li>
     }
 </ul>
