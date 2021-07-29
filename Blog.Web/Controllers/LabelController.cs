@@ -32,6 +32,10 @@ namespace Blog.Web.Controllers
                 return NotFound();
             }
 
+            ViewBag.Label = postsByLabel.First()
+                .Labels.Single(x => x.Slug.Equals(labelSlug,
+                    StringComparison.OrdinalIgnoreCase)).Name;
+
             return View(postsByLabel);
         }
 

@@ -1,11 +1,11 @@
 ﻿@model PagedList<Blog.Data.Models.PostSummary>
 @{
-    
+    ViewData["Title"] = "برچسب - " + ViewBag.Label;
 }
 
 <nav>
     <ol class="breadcrumb">
-        <li class="breadcrumb-item">nn</li>
+        <li class="breadcrumb-item">@ViewBag.Label</li>
     </ol>
 </nav>
 
