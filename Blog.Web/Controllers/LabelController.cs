@@ -21,19 +21,16 @@ namespace Blog.Web.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        [Route("labels/{label}")]
-        public async Task<IActionResult> Details([FromQuery] PostParameters parameters, string label)
+        [Route("labels/{labelSlug}")]
+        public async Task<IActionResult> Details([FromQuery] PostParameters parameters, string labelSlug)
         {
             PagedList<PostSummary> postsByLabel = await _unitOfWork.PostRepository
-                .GetPagedListAsync(parameters, label);
+                .GetPagedListAsync(parameters, labelSlug);
 
             if (postsByLabel.Count < 1)
             {
                 return NotFound();
             }
-
-            ViewBag.Label = postsByLabel.First()
-                .Labels.Single(x => x.Equals(label, StringComparison.OrdinalIgnoreCase));
 
             return View(postsByLabel);
         }
