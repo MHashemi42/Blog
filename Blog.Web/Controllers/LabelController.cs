@@ -21,6 +21,13 @@ namespace Blog.Web.Controllers
             _unitOfWork = unitOfWork;
         }
 
+        [Authorize(Roles = "Admin, Writer")]
+        public async Task<IActionResult> Index()
+        {
+            var labels = await _unitOfWork.LabelRepository.GetAllAsync();
+            return View(labels);
+        }
+
         [Route("labels/{labelSlug}")]
         public async Task<IActionResult> Details([FromQuery] PostParameters parameters, string labelSlug)
         {
@@ -77,7 +84,7 @@ namespace Blog.Web.Controllers
             await _unitOfWork.LabelRepository.AddAsync(label);
             await _unitOfWork.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Details), new { label = label.Name });
+            return RedirectToAction(nameof(Index));
         }
 
         [Authorize(Roles = "Admin, Writer")]

@@ -1,0 +1,12 @@
+﻿@model IEnumerable<Blog.Data.Entities.Label>
+
+<ul class="list-group">
+    @foreach (var label in Model)
+    {
+        <li class="list-group-item">
+            <span class="mx-1">@label.Id</span>
+            <span class="mx-1">@label.Name</span>
+            <span class="mx-1">@label.Slug</span>
+        </li>
+    }
+</ul>
