@@ -3,7 +3,7 @@
     ViewData["Title"] = "ایجاد پست";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1 class="h2">@ViewData["Title"]</h1>
 <form method="post" class="needs-validation" novalidate>
     <div class="form-group">
         <label asp-for="Title"></label>
@@ -38,7 +38,7 @@
     <div asp-validation-summary="ModelOnly" class="text-danger">
         <span>خطا:</span>
     </div>
-    <button type="submit" class="btn btn-primary">ثبت</button>
+    <button type="submit" class="btn btn-primary mt-2">ثبت</button>
 </form>
 
 @section Scripts

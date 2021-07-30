@@ -37,6 +37,7 @@ namespace Blog.Web.ViewModels
 
         public List<SelectListItem> Labels { get; set; }
 
+        [Display(Name = "برچسب ها")]
         public int[] LabelIds { get; set; } = Array.Empty<int>();
     }
 }

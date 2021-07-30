@@ -1,5 +1,7 @@
 ﻿@model UpdatePostViewModel
-
+@{ 
+    ViewData["Title"] = "ویرایش پست - " + Model.Title;
+}
 <form method="post" class="needs-validation" novalidate>
     <div class="form-group">
         <label asp-for="Title"></label>
