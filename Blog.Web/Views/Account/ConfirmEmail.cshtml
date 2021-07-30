@@ -1,5 +1,5 @@
 ﻿@{ 
-    ViewBag.Title = "تاییدایمیل";
+    ViewData["Title"] = "تاییدایمیل";
 }
-<h1>@ViewBag.Title</h1>
-<h3>ایمیل شما تایید شد. برای ورود <a asp-controller="Account" asp-action="Login">کلیک کنید</a>.</h3>
+<h1 class="h2">@ViewData["Title"]</h1>
+<h4>ایمیل شما تایید شد. برای ورود <a asp-controller="Account" asp-action="Login">کلیک کنید</a>.</h4>
