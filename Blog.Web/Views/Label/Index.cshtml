@@ -1,12 +1,15 @@
 ﻿@model IEnumerable<Blog.Data.Entities.Label>
-
-<ul class="list-group">
+@{ 
+    ViewData["Title"] = "برچسب ها";
+}
+<h1 class="h2">@ViewData["Title"]</h1>
+<ul class="list-group mt-4">
     @foreach (var label in Model)
     {
-        <li class="list-group-item">
-            <span class="mx-1">@label.Id</span>
-            <span class="mx-1">@label.Name</span>
-            <span class="mx-1">@label.Slug</span>
-        </li>
+    <li class="list-group-item">
+        <a class="float-left" asp-controller="Label"
+           asp-action="Details" asp-route-labelSlug="@label.Slug">دیدن پست ها</a>
+        <span>@label.Name</span>
+    </li>
     }
 </ul>

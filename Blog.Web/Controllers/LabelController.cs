@@ -28,7 +28,7 @@ namespace Blog.Web.Controllers
             return View(labels);
         }
 
-        [Route("labels/{labelSlug}")]
+        [Route("label/details/{labelSlug}")]
         public async Task<IActionResult> Details([FromQuery] PostParameters parameters, string labelSlug)
         {
             PagedList<PostSummary> postsByLabel = await _unitOfWork.PostRepository
@@ -99,7 +99,8 @@ namespace Blog.Web.Controllers
             UpdateLabelViewModel viewModel = new()
             {
                 Id = label.Id,
-                Name = label.Name
+                Name = label.Name,
+                Slug = label.Slug
             };
 
             return View(viewModel);
@@ -125,14 +126,25 @@ namespace Blog.Web.Controllers
                 return NotFound();
             }
 
-            var isExist = await _unitOfWork.LabelRepository.IsNameExist(viewModel.Name);
-            if (isExist)
+            var isNameExist = await _unitOfWork.LabelRepository.IsNameExist(viewModel.Name);
+            var isNewName = label.Name != viewModel.Name;
+            if (isNameExist && isNewName)
             {
-                ModelState.AddModelError(nameof(viewModel.Name), "نام برچسب تکراری است.");
+                ModelState.AddModelError(nameof(UpdateLabelViewModel.Name), "نام برچسب تکراری است.");
+                return View();
+            }
+
+            var isSlugExist = await _unitOfWork.LabelRepository.IsSlugExist(viewModel.Slug);
+            var isNewSlug = label.Slug != viewModel.Slug;
+            if (isSlugExist && isNewSlug)
+            {
+                ModelState.AddModelError(nameof(UpdateLabelViewModel.Slug), "نام اسلاگ تکراری است.");
                 return View();
             }
 
             label.Name = viewModel.Name;
+            label.Slug = viewModel.Slug;
+
             await _unitOfWork.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
