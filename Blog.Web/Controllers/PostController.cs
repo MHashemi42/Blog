@@ -154,6 +154,21 @@ namespace Blog.Web.Controllers
                 return RedirectToAction(nameof(Details), new { post.Id, post.Slug });
             }
 
+            if (User.Identity.IsAuthenticated)
+            {
+                var userIdText = User.Claims
+                    .First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+                var userId = int.Parse(userIdText);
+
+                var isUserSeePost = post.Views.Select(v => v.UserId).Contains(userId);
+
+                if (isUserSeePost is false)
+                {
+                    post.Views.Add(new View { UserId = userId, PostId = post.Id });
+                    await _unitOfWork.SaveChangesAsync();
+                }
+            }
+
             var htmlSanitizer = new HtmlSanitizer();
             htmlSanitizer.AllowedAttributes.Add("class");
             htmlSanitizer.AllowedCssProperties.Add("position");
