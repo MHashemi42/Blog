@@ -8,7 +8,7 @@ body {
     grid-template-rows: 1fr auto;
 }
 
-main {
+#main-body {
     margin-top: 5rem;
 }
 

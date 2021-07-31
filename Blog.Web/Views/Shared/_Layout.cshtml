@@ -19,16 +19,18 @@
                 </ul>
             </nav>
         </header>
-        <main class="container-fluid px-sm-5">
+        <div id="main-body" class="container-fluid px-sm-5">
             <div class="row">
-                <div class="col-12 col-lg-8">
+                <main class="col-12 col-lg-8">
                     @RenderBody()
-                </div>
-                <div class="d-none d-lg-block col-lg-4">
-                    
-                </div>
+                </main>
+                <aside class="d-none d-lg-block col-lg-4">
+                    <cache expires-after="TimeSpan.FromHours(12)">
+                        <vc:most-viewed-posts></vc:most-viewed-posts>
+                    </cache>
+                </aside>
             </div>
-        </main>
+        </div>
     </div>
     <footer class="footer direction-ltr bg-light">
         <nav class="navbar navbar-light container">&copy;Blog, 2021</nav>
