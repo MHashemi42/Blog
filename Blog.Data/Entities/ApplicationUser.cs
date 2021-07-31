@@ -18,5 +18,6 @@ namespace Blog.Data.Entities
         public ICollection<Post> Posts { get; set; }
         public ICollection<Post> ModifiedPost { get; set; }
         public ICollection<Comment> Comments { get; set; }
+        public ICollection<View> Views { get; set; }
     }
 }

@@ -20,6 +20,7 @@ namespace Blog.Data
         public DbSet<Post> Posts { get; set; }
         public DbSet<Label> Labels { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<View> Views { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -122,6 +123,21 @@ namespace Blog.Data
                        .WithMany(u => u.Comments)
                        .HasForeignKey(c => c.UserId)
                        .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            builder.Entity<View>(view =>
+            {
+                view.HasKey(v => v.Id);
+
+                view.HasOne(v => v.User)
+                    .WithMany(u => u.Views)
+                    .HasForeignKey(v => v.UserId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                view.HasOne(v => v.Post)
+                    .WithMany(p => p.Views)
+                    .HasForeignKey(v => v.PostId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
         }
     }

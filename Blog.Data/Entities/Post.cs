@@ -23,5 +23,6 @@ namespace Blog.Data.Entities
         public ApplicationUser Modifier { get; set; }
         public ICollection<Label> Labels { get; set; }
         public ICollection<Comment> Comments { get; set; }
+        public ICollection<View> Views { get; set; }
     }
 }
