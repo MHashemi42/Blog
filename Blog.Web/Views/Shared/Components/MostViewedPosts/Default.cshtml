@@ -1,0 +1,19 @@
+﻿@model IEnumerable<Blog.Data.Models.PostSummary>
+
+<ul class="list-group">
+    <li class="list-group-item list-group-item-info">
+        <h5 class="text-center">پربازدید ترین مطالب</h5>
+    </li>
+    @foreach (var post in Model)
+    {
+        <li class="list-group-item">
+            <h6>
+                <a class="text-dark" asp-controller="Post"
+                   asp-action="Details" asp-route-id="@post.Id"
+                   asp-route-slug="@post.Slug">
+                    @post.Title
+                </a>
+            </h6>
+        </li>
+    }
+</ul>
