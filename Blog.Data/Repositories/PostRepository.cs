@@ -32,6 +32,20 @@ namespace Blog.Data.Repositories
                 .SingleOrDefaultAsync(p => p.Id == id);
         }
 
+        public async Task<IEnumerable<PostSummary>> GetMostViewedPostsAsync(int postCount)
+        {
+            return await _dbSet
+                .OrderByDescending(p => p.Views.Count)
+                .Take(postCount)
+                .Select(p => new PostSummary
+                {
+                    Id = p.Id,
+                    Title = p.Title,
+                    Slug = p.Slug
+                })
+                .ToListAsync();
+        }
+
         public async Task<PagedList<PostSummary>> GetPagedListAsync(
             PostParameters parameters, string labelSlug = "")
         {

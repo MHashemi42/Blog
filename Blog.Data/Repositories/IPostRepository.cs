@@ -14,5 +14,6 @@ namespace Blog.Data.Repositories
         Task<PagedList<PostSummary>> GetPagedListAsync(PostParameters parameters);
         Task<PagedList<PostSummary>> GetPagedListAsync(PostParameters parameters, string labelSlug);
         Task<bool> IsSlugExist(string slug);
+        Task<IEnumerable<PostSummary>> GetMostViewedPostsAsync(int postCount);
     }
 }
