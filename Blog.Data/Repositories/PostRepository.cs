@@ -28,6 +28,7 @@ namespace Blog.Data.Repositories
             return await _dbSet
                 .Include(p => p.Labels)
                 .Include(p => p.Author)
+                .Include(p => p.Views)
                 .SingleOrDefaultAsync(p => p.Id == id);
         }
 
