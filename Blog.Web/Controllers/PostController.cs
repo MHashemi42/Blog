@@ -186,6 +186,7 @@ namespace Blog.Web.Controllers
                 AuthorFriendlyName = post.Author.FriendlyName,
                 AuthorUserName = post.Author.UserName,
                 AuthorAvatar = post.Author.AvatarName,
+                Views = post.Views.Count,
                 Labels = post.Labels
             };
 

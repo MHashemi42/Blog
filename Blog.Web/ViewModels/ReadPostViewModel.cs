@@ -16,6 +16,7 @@ namespace Blog.Web.ViewModels
         public string AuthorFriendlyName { get; set; }
         public string AuthorUserName { get; set; }
         public string AuthorAvatar { get; set; }
+        public int Views { get; set; }
         public IEnumerable<Label> Labels { get; set; }
     }
 }
