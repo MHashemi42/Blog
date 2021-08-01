@@ -45,6 +45,20 @@ namespace Blog.Data
             }
         }
 
+        private ICommentRepository _commentRepository;
+        public ICommentRepository CommentRepository
+        {
+            get
+            {
+                if (_commentRepository is null)
+                {
+                    _commentRepository = new CommentRepository(_dbContext);
+                }
+
+                return _commentRepository;
+            }
+        }
+
         public async Task<int> SaveChangesAsync()
         {
             return await _dbContext.SaveChangesAsync();

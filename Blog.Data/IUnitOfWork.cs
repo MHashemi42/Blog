@@ -11,6 +11,7 @@ namespace Blog.Data
     {
         IPostRepository PostRepository { get; }
         ILabelRepository LabelRepository { get; }
+        ICommentRepository CommentRepository { get; }
         Task<int> SaveChangesAsync();
     }
 }
