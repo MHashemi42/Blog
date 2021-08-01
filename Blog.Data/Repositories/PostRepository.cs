@@ -83,6 +83,11 @@ namespace Blog.Data.Repositories
             return await GetPagedListAsync(parameters, string.Empty);
         }
 
+        public async Task<bool> IsExist(int postId)
+        {
+            return await _dbSet.AnyAsync(p => p.Id == postId);
+        }
+
         public async Task<bool> IsSlugExist(string slug)
         {
             return await _dbSet.AnyAsync(p => p.Slug == slug);
