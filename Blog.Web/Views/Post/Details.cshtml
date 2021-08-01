@@ -1,5 +1,5 @@
 ﻿@model ReadPostViewModel
-@{ 
+@{
     ViewData["Title"] = Model.Title;
 }
 @section Links
@@ -7,7 +7,7 @@
     <link href="~/lib/ckeditor/css/ckeditor.css" rel="stylesheet" asp-append-version="true" />
 }
 
-<div class="bg-white p-3">
+<div class="bg-white border border-primary rounded p-3">
     <h2>@Model.Title</h2>
     <div class="row p-3">
         <a asp-controller="Account" asp-action="Profile"
@@ -41,3 +41,47 @@
         <partial name="_LabelList" model="@Model.Labels" />
     </div>
 </div>
+
+<div class="border border-primary rounded mt-3 bg-white p-3">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <partial name="../Comment/_CreateComment"
+                 model="new CreateCommentViewModel { PostId = Model.PostId }" />
+    }
+    else
+    {
+        <div class="text-center">
+            <h6>برای ثبت دیدگاه ابتدا باید وارد حساب کاربری شوید.</h6>
+            <div class="btn-group-sm mt-3">
+                <a class="btn btn-outline-primary" asp-controller="Account"
+                   asp-action="Login" asp-route-returnUrl="@Context.Request.Path">ورود</a>
+                <a class="btn btn-outline-primary" asp-controller="Account"
+                   asp-action="Register">ثبت نام</a>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $("#create-comment-form").submit(function (event) {
+            event.preventDefault();
+
+            var postId = $("#PostId").val();
+            var content = $("#Content").val();
+
+            $.ajax({
+                url: '@Url.Action("CreateComment", "Comment")',
+                type: 'POST',
+                data: { postId, content },
+                success: function () {
+                    alert("دیدگاه شما با موفقیت ثبت شد.")
+                },
+                error: function () {
+                    alert("مشکلی بوجود آمد، مجدد تلاش کنید.")
+                }
+            })
+        });
+    </script>
+}

@@ -179,6 +179,7 @@ namespace Blog.Web.Controllers
 
             ReadPostViewModel viewModel = new()
             {
+                PostId = post.Id,
                 Title = post.Title,
                 Description = post.Description,
                 Body = new HtmlString(sanitizedBody),
