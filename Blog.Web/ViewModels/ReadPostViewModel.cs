@@ -19,5 +19,6 @@ namespace Blog.Web.ViewModels
         public string AuthorAvatar { get; set; }
         public int Views { get; set; }
         public IEnumerable<Label> Labels { get; set; }
+        public IEnumerable<ReadCommentViewModel> Comments { get; set; }
     }
 }
