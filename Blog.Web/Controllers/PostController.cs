@@ -1,4 +1,5 @@
-﻿using Blog.Data;
+﻿using AutoMapper;
+using Blog.Data;
 using Blog.Data.Entities;
 using Blog.Data.Models;
 using Blog.Data.Repositories;
@@ -24,12 +25,15 @@ namespace Blog.Web.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IMapper _mapper;
 
         public PostController(IUnitOfWork unitOfWork,
-            IWebHostEnvironment webHostEnvironment)
+            IWebHostEnvironment webHostEnvironment,
+            IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _webHostEnvironment = webHostEnvironment;
+            _mapper = mapper;
         }
 
         public async Task<IActionResult> Index([FromQuery] PostParameters parameters)
@@ -177,6 +181,11 @@ namespace Blog.Web.Controllers
             htmlSanitizer.AllowedTags.Add("style");
             var sanitizedBody = htmlSanitizer.Sanitize(post.Body);
 
+            List<Comment> rootComments = post.Comments
+                .Where(c => c.ParentId == null)
+                .ToList();
+            var comments = _mapper.Map<List<ReadCommentViewModel>>(rootComments);
+
             ReadPostViewModel viewModel = new()
             {
                 PostId = post.Id,
@@ -188,7 +197,8 @@ namespace Blog.Web.Controllers
                 AuthorUserName = post.Author.UserName,
                 AuthorAvatar = post.Author.AvatarName,
                 Views = post.Views.Count,
-                Labels = post.Labels
+                Labels = post.Labels,
+                Comments = comments
             };
 
             return View(viewModel);
