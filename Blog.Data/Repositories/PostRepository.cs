@@ -29,6 +29,9 @@ namespace Blog.Data.Repositories
                 .Include(p => p.Labels)
                 .Include(p => p.Author)
                 .Include(p => p.Views)
+                .Include(p => p.Comments)
+                    .ThenInclude(c => c.Children)
+                    .ThenInclude(c => c.User)
                 .SingleOrDefaultAsync(p => p.Id == id);
         }
 
