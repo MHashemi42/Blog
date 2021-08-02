@@ -1,0 +1,24 @@
+﻿@model IEnumerable<ReadCommentViewModel>
+
+<ul class="list-unstyled">
+    @foreach (var comment in Model)
+    {
+        <li>
+            <div class="card mt-2 @(comment.ParentId is null ? "border-primary" : "ml-4")">
+                <div class="card-body">
+                    <a class="text-dark" asp-controller="Account"
+                       asp-action="Profile" asp-route-username="@comment.UserUserName">
+                        <div class="d-flex">
+                            <img src="~/images/users/@comment.UserAvatarName" class="rounded-circle" style="width:2rem" />
+                            <h5 class="card-title mb-0 mr-2">@comment.UserFriendlyName</h5>
+                        </div>
+                    </a>
+                    <h6 class="card-subtitle mb-2 mt-1 text-muted">@comment.CreatedDate.ToShortDateString()</h6>
+                    <p class="card-text">@comment.Content</p>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#replyModal" data-comment-id="@comment.Id">پاسخ</button>
+                </div>
+            </div>
+            <partial name="../Comment/_Comments" model="comment.Children" />
+        </li>
+    }
+</ul>
