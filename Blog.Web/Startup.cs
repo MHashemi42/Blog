@@ -29,6 +29,7 @@ namespace Blog.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(typeof(Startup));
             services.AddControllersWithViews();
             services.AddRazorPages()
                 .AddRazorPagesOptions(options =>
