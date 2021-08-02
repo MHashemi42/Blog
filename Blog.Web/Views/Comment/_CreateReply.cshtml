@@ -1,0 +1,28 @@
+﻿@model CreateCommentViewModel
+
+<div class="modal fade" id="replyModal" tabindex="-1" role="dialog" aria-labelledby="replyModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-primary" id="replyModelLabel">پاسخ به این دیدگاه...</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="reply-comment-form" class="needs-validation" novalidate>
+                <div class="modal-body">
+                    <input type="hidden" asp-for="ParentId" />
+                    <input type="hidden" asp-for="PostId" />
+                    <div class="form-group">
+                        <label asp-for="Content"></label>
+                        <textarea id="replyContent" class="form-control reply-content" asp-for="Content" rows="3"></textarea>
+                        <span asp-validation-for="Content"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-outline-primary">ثبت پاسخ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
