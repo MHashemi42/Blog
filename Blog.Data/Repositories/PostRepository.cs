@@ -26,13 +26,23 @@ namespace Blog.Data.Repositories
         public override async Task<Post> GetByIdAsync(int id)
         {
             return await _dbSet
+                .AsNoTracking()
                 .Include(p => p.Labels)
                 .Include(p => p.Author)
                 .Include(p => p.Views)
                 .Include(p => p.Comments)
                     .ThenInclude(c => c.Children)
+                .Include(p => p.Comments)
                     .ThenInclude(c => c.User)
                 .SingleOrDefaultAsync(p => p.Id == id);
+        }
+
+        public async Task<Post> GetByIdForUpdateAsync(int postId)
+        {
+            return await _dbSet
+                .Include(p => p.Labels)
+                .Include(p => p.Author)
+                .SingleOrDefaultAsync(p => p.Id == postId);
         }
 
         public async Task<IEnumerable<PostSummary>> GetMostViewedPostsAsync(int postCount)

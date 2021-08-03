@@ -11,6 +11,7 @@ namespace Blog.Data.Repositories
 {
     public interface IPostRepository : IRepository<Post>
     {
+        Task<Post> GetByIdForUpdateAsync(int postId);
         Task<PagedList<PostSummary>> GetPagedListAsync(PostParameters parameters);
         Task<PagedList<PostSummary>> GetPagedListAsync(PostParameters parameters, string labelSlug);
         Task<bool> IsExist(int postId);
