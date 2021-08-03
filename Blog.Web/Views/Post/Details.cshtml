@@ -90,13 +90,15 @@
             })
         });
 
-        $("#replyModal").on('show.bs.modal', function (event) {
-            console.log("hehe");
-            var button = $(event.relatedTarget)
-            var commentId = button.data("comment-id")
-
-            var modal = $(this)
-            modal.find(".modal-body #ParentId").val(commentId);
+        $(".modalReplyBtn").click(function (event) {
+            if (@(User.Identity.IsAuthenticated ? "true" : "false")) {
+                var commentId = $(this).data("comment-id");
+                var modal = $("#replyModal");
+                modal.find(".modal-body #ParentId").val(commentId);
+                modal.modal("show");
+            } else {
+                alert("برای پاسخ به دیدگاه باید وارد حساب کاربری شوید.");
+            }
         });
 
         $("#reply-comment-form").submit(function (event) {
