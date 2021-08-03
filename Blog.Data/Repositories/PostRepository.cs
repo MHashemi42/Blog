@@ -26,7 +26,7 @@ namespace Blog.Data.Repositories
         public override async Task<Post> GetByIdAsync(int id)
         {
             return await _dbSet
-                .AsNoTracking()
+                .AsNoTrackingWithIdentityResolution()
                 .Include(p => p.Labels)
                 .Include(p => p.Author)
                 .Include(p => p.Views)
