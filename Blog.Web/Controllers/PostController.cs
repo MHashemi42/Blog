@@ -207,7 +207,7 @@ namespace Blog.Web.Controllers
         [Authorize(Roles = "Admin, Writer")]
         public async Task<IActionResult> Edit(int id)
         {
-            var post = await _unitOfWork.PostRepository.GetByIdAsync(id);
+            var post = await _unitOfWork.PostRepository.GetByIdForUpdateAsync(id);
             if (post is null)
             {
                 return NotFound();
@@ -241,7 +241,7 @@ namespace Blog.Web.Controllers
                 return BadRequest();
             }
 
-            var post = await _unitOfWork.PostRepository.GetByIdAsync(id);
+            var post = await _unitOfWork.PostRepository.GetByIdForUpdateAsync(id);
             if (post is null)
             {
                 return NotFound();
