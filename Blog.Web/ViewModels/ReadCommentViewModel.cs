@@ -9,9 +9,11 @@ namespace Blog.Web.ViewModels
     {
         public int Id { get; set; }
         public int? ParentId { get; set; }
-        public string UserUserName { get; set; }
-        public string UserFriendlyName { get; set; }
-        public string UserAvatarName { get; set; }
+        public string ParentFriendlyName { get; set; }
+        public string ParentUserName { get; set; }
+        public string UserName { get; set; }
+        public string FriendlyName { get; set; }
+        public string AvatarName { get; set; }
         public DateTime CreatedDate { get; set; }
         public string Content { get; set; }
         public IEnumerable<ReadCommentViewModel> Children { get; set; }
