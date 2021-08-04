@@ -27,7 +27,7 @@ namespace Blog.Web.ViewModels
 
         [DataType(DataType.Date)]
         [Display(Name = "تاریخ تولد")]
-        public DateTime? BirthDay { get; set; }
+        public DateTimeOffset? BirthDay { get; set; }
 
         [Display(Name = "محل اقامت")]
         public string Location { get; set; }
