@@ -14,7 +14,7 @@ namespace Blog.Web.ViewModels
         public string UserName { get; set; }
         public string FriendlyName { get; set; }
         public string AvatarName { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public string CreatedDate { get; set; }
         public string Content { get; set; }
         public IEnumerable<ReadCommentViewModel> Children { get; set; }
     }

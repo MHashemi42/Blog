@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DNTPersianUtils.Core;
 
 namespace Blog.Web.Profiles
 {
@@ -17,7 +18,8 @@ namespace Blog.Web.Profiles
                 .ForMember(r => r.ParentUserName, c => c.MapFrom(c => c.Parent.User.UserName))
                 .ForMember(r => r.FriendlyName, c => c.MapFrom(c => c.User.FriendlyName))
                 .ForMember(r => r.UserName, c => c.MapFrom(c => c.User.UserName))
-                .ForMember(r => r.AvatarName, c => c.MapFrom(c => c.User.AvatarName));
+                .ForMember(r => r.AvatarName, c => c.MapFrom(c => c.User.AvatarName))
+                .ForMember(r => r.CreatedDate, c => c.MapFrom(c => c.CreatedDate.ToFriendlyPersianDateTextify(false, false)));
         }
     }
 }
