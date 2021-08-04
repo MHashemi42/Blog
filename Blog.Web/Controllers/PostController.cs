@@ -18,6 +18,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using DNTPersianUtils.Core;
 
 namespace Blog.Web.Controllers
 {
@@ -192,7 +193,7 @@ namespace Blog.Web.Controllers
                 Title = post.Title,
                 Description = post.Description,
                 Body = new HtmlString(sanitizedBody),
-                CreatedDate = post.CreatedDate,
+                CreatedDate = post.CreatedDate.ToFriendlyPersianDateTextify(),
                 AuthorFriendlyName = post.Author.FriendlyName,
                 AuthorUserName = post.Author.UserName,
                 AuthorAvatar = post.Author.AvatarName,
