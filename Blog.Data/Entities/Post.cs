@@ -14,8 +14,8 @@ namespace Blog.Data.Entities
         public string Description { get; set; }
         public string Body { get; set; }
         public bool IsHidden { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public DateTime? ModifiedDate { get; set; }
+        public DateTimeOffset CreatedDate { get; set; }
+        public DateTimeOffset? ModifiedDate { get; set; }
         public int AuthorId { get; set; }
         public int? ModifierId { get; set; }
 

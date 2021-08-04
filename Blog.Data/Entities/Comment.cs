@@ -14,8 +14,8 @@ namespace Blog.Data.Entities
         public int? UserId { get; set; }
         public int PostId { get; set; }
         public string Content { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public DateTime? ModifiedDate { get; set; }
+        public DateTimeOffset CreatedDate { get; set; }
+        public DateTimeOffset? ModifiedDate { get; set; }
 
         public Comment Parent { get; set; }
         public ApplicationUser User { get; set; }

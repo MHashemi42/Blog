@@ -10,7 +10,7 @@ namespace Blog.Data.Entities
     public class ApplicationUser : IdentityUser<int>
     {
         public string FriendlyName { get; set; }
-        public DateTime? BirthDay { get; set; }
+        public DateTimeOffset? BirthDay { get; set; }
         public string Location { get; set; }
         public string Bio { get; set; }
         public string AvatarName { get; set; }
