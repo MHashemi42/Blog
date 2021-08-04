@@ -33,9 +33,6 @@ namespace Blog.Data
                     .HasMaxLength(50)
                     .IsRequired();
 
-                user.Property(u => u.BirthDay)
-                    .HasColumnType("date");
-
                 user.Property(u => u.Location)
                     .HasMaxLength(100);
 
