@@ -23,7 +23,7 @@
         نام مستعار: @Model.ApplicationUser.FriendlyName
     </li>
     <li class="list-group-item">
-        تاریخ تولد: @(Model.ApplicationUser.BirthDay?.ToLongDateString() ?? "ندارد")
+        تاریخ تولد: @(Model.ApplicationUser.BirthDay?.ToShortPersianDateString() ?? "ندارد")
     </li>
     <li class="list-group-item">
         محل اقامت: @(Model.ApplicationUser.Location ?? "ندارد")
