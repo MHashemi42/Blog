@@ -17,5 +17,6 @@ namespace Blog.Data.Repositories
         Task<bool> IsExist(int postId);
         Task<bool> IsSlugExist(string slug);
         Task<IEnumerable<PostSummary>> GetMostViewedPostsAsync(int postCount);
+        Task<IEnumerable<PostSummary>> GetMostDiscussionPostsAsync(int postCount);
     }
 }

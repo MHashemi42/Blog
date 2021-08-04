@@ -45,6 +45,20 @@ namespace Blog.Data.Repositories
                 .SingleOrDefaultAsync(p => p.Id == postId);
         }
 
+        public async Task<IEnumerable<PostSummary>> GetMostDiscussionPostsAsync(int postCount)
+        {
+            return await _dbSet
+                .OrderByDescending(p => p.Comments.Count)
+                .Take(postCount)
+                .Select(p => new PostSummary
+                {
+                    Id = p.Id,
+                    Title = p.Title,
+                    Slug = p.Slug
+                })
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<PostSummary>> GetMostViewedPostsAsync(int postCount)
         {
             return await _dbSet
