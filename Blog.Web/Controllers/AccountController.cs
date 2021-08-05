@@ -1,5 +1,7 @@
-﻿using Blog.Data.Entities;
+﻿using Blog.Data;
+using Blog.Data.Entities;
 using Blog.Data.Identity;
+using Blog.Data.Models;
 using Blog.Web.Helpers;
 using Blog.Web.Services;
 using Blog.Web.ViewModels;
@@ -31,23 +33,26 @@ namespace Blog.Web.Controllers
         private readonly IEmailService _emailService;
         private readonly ICaptchaService _captchaService;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IUnitOfWork _unitOfWork;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailService emailService,
             ICaptchaService captchaService,
-            IWebHostEnvironment webHostEnvironment)
+            IWebHostEnvironment webHostEnvironment,
+            IUnitOfWork unitOfWork)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailService = emailService;
             _captchaService = captchaService;
             _webHostEnvironment = webHostEnvironment;
+            _unitOfWork = unitOfWork;
         }
 
         [Route("/User/{username}")]
-        public async Task<IActionResult> Profile(string username)
+        public async Task<IActionResult> Profile([FromQuery] CommentParameters parameters, string username)
         {
             var user = await _userManager.FindByNameAsync(username);
             if (user is null)
@@ -55,12 +60,15 @@ namespace Blog.Web.Controllers
                 return NotFound();
             }
 
+            var userComments = await _unitOfWork.CommentRepository
+                .GetUserCommentsPagedListAsync(parameters, user.Id);
             ProfileViewModel viewModel = new()
             {
                 Username = user.UserName,
                 FriendlyName = user.FriendlyName,
                 Bio = user.Bio,
-                AvatarPath = Path.Combine("~/images", "users", user.AvatarName ?? "default.jpg")
+                AvatarPath = Path.Combine("~/images", "users", user.AvatarName ?? "default.jpg"),
+                Comments = userComments
             };
 
             return View(viewModel);

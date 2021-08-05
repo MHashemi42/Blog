@@ -4,7 +4,7 @@
 {
     <p class="alert alert-success">@TempData["Message"]</p>
 }
-<div class="container p-3 bg-white">
+<div class="container p-3 bg-white border rounded">
     <div class="row">
         <span class="col-auto">
             <img src="@Model.AvatarPath" title="@Model.Username" asp-append-version="true" class="rounded-circle" style="width:6rem" />
@@ -20,4 +20,34 @@
     </div>
     <h2 class="h4 mt-3">درباره ی من:</h2>
     <p class="mb-0">@Model.Bio</p>
+    @if (Model.Comments.Any())
+    {
+        <br />
+        <h2 class="h3 mt-3">دیدگاه ها</h2>
+        @foreach (var comment in Model.Comments)
+        {
+            <div class="row col mb-3">
+                <div class="card w-100">
+                    <div class="card-header">
+                        <a asp-controller="Post" asp-action="Details"
+                           asp-route-id="@comment.PostId" asp-route-slug="@comment.PostSlug"
+                           asp-fragment="comment-@comment.Id">
+                            @comment.PostTitle
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-text">
+                            @comment.Content
+                        </div>
+                    </div>
+                    <div class="card-footer text-muted">
+                        @comment.CreatedDate.ToFriendlyPersianDateTextify(false, false)
+                    </div>
+                </div>
+            </div>
+        }
+        <vc:pagination has-previous="@Model.Comments.HasPrevious"
+                       has-next="@Model.Comments.HasNext"
+                       current-page="@Model.Comments.CurrentPage"></vc:pagination>
+    }
 </div>

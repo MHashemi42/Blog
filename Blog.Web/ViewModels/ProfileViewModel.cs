@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Blog.Data.Helpers;
+using Blog.Data.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -19,5 +21,7 @@ namespace Blog.Web.ViewModels
 
         [DataType(DataType.ImageUrl)]
         public string AvatarPath { get; set; }
+
+        public PagedList<CommentSummary> Comments { get; set; }
     }
 }
