@@ -34,6 +34,8 @@ namespace Blog.Data.Repositories
                     .ThenInclude(c => c.Children)
                 .Include(p => p.Comments)
                     .ThenInclude(c => c.User)
+                .AsSplitQuery()
+                .OrderBy(p => p.Id)
                 .SingleOrDefaultAsync(p => p.Id == id);
         }
 
