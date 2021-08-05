@@ -4,7 +4,20 @@
 {
     <p class="alert alert-success">@TempData["Message"]</p>
 }
-<h1>@Model.FriendlyName</h1>
-<img src="@Model.AvatarPath" asp-append-version="true"/>
-<h5>@Model.Username</h5>
-<div>@Model.Bio</div>
+<div class="container p-3 bg-white">
+    <div class="row">
+        <span class="col-auto">
+            <img src="@Model.AvatarPath" title="@Model.Username" asp-append-version="true" class="rounded-circle" style="width:6rem" />
+        </span>
+        <div class="col pr-1">
+            <h1 class="h3">@Model.FriendlyName</h1>
+            <div>
+                <a asp-controller="Account" asp-action="Profile" asp-route-username="@Model.Username" class="text-dark">
+                    @Model.Username@@
+                </a>
+            </div>
+        </div>
+    </div>
+    <h2 class="h4 mt-3">درباره ی من:</h2>
+    <p class="mb-0">@Model.Bio</p>
+</div>
