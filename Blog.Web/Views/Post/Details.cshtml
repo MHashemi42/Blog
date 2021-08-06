@@ -117,5 +117,23 @@
                 }
             })
         });
+
+        $("a[name^='comment-']").click(function (event) {
+            event.preventDefault();
+            var commentId = $(this).attr("name");
+
+            var baseUrl = this.baseURI;
+            if (baseUrl.includes("#")) {
+                baseUrl = baseUrl.substring(0, baseUrl.indexOf("#"));
+            }
+
+            var url = baseUrl + `#${commentId}`;
+            var temp = $("<input>");
+            $("body").append(temp);
+            temp.val(url).select();
+            document.execCommand("copy");
+            temp.remove();
+            alert("کامنت مورد نظر با موفقیت کپی شد");
+        })
     </script>
 }
