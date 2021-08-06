@@ -52,7 +52,8 @@ namespace Blog.Web.Controllers
         }
 
         [Route("/User/{username}")]
-        public async Task<IActionResult> Profile([FromQuery] CommentParameters parameters, string username)
+        [Route("/User/{username}/comments/{pageNumber}")]
+        public async Task<IActionResult> Profile([FromRoute] CommentParameters parameters, string username)
         {
             var user = await _userManager.FindByNameAsync(username);
             if (user is null)
