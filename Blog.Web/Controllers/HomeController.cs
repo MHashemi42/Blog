@@ -19,7 +19,9 @@ namespace Blog.Web.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        public async  Task<IActionResult> Index([FromQuery] PostParameters parameters)
+        [Route("/")]
+        [Route("/page/{pageNumber}")]
+        public async  Task<IActionResult> Index([FromRoute] PostParameters parameters)
         {
             PagedList<PostSummary> posts = await _unitOfWork.PostRepository
                 .GetPagedListAsync(parameters);
