@@ -12,7 +12,7 @@
                     }
                     <div class="row">
                         <div class="col-auto">
-                            <img src="~/images/users/@(comment.AvatarName ?? "default.jpg")" class="rounded-circle" style="width:2rem" />
+                            <img src="~/images/users/@(comment.AvatarName ?? "default.jpg")" class="rounded-circle" style="width:2rem" asp-append-version="true"/>
                             <a class="text-dark" asp-controller="Account"
                                asp-action="Profile" asp-route-username="@comment.UserName">
                                 <h5 class="card-title d-inline">@comment.FriendlyName</h5>
