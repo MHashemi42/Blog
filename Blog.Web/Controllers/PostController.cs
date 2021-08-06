@@ -37,14 +37,6 @@ namespace Blog.Web.Controllers
             _mapper = mapper;
         }
 
-        public async Task<IActionResult> Index([FromQuery] PostParameters parameters)
-        {
-            var posts = await _unitOfWork.PostRepository
-                .GetPagedListAsync(parameters); 
-
-            return View(posts);
-        }
-
         [Authorize(Roles = "Admin, Writer")]
         public async Task<IActionResult> Create()
         {
