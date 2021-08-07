@@ -32,7 +32,7 @@
                 <span dir="ltr">@Model.CreatedDate</span>
             </div>
         </div>
-        <span class="mr-auto">تعداد بازدید: @Model.Views</span>
+        <span class="mr-auto">تعداد بازدید: @Model.Views.ToPersianNumbers()</span>
     </div>
     <p>@Model.Description</p>
     <div class="ck-content" dir="rtl">@Model.Body</div>
