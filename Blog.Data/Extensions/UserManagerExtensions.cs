@@ -24,6 +24,7 @@ namespace Blog.Data.Extensions
                     (parameters.QueryByUsername && u.UserName.Contains(parameters.Query)) ||
                     (parameters.QueryByEmail && u.Email.Contains(parameters.Query)));
             }
+            source = source.OrderBy(u => u.Id);
 
             var pagedList = await PagedList<ApplicationUser>
                 .ToPagedListAsync(source, parameters.PageNumber, parameters.PageSize);
