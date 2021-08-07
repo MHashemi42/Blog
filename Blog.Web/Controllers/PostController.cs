@@ -185,7 +185,7 @@ namespace Blog.Web.Controllers
                 Title = post.Title,
                 Description = post.Description,
                 Body = new HtmlString(sanitizedBody),
-                CreatedDate = post.CreatedDate.ToFriendlyPersianDateTextify(),
+                CreatedDate = post.CreatedDate.ToShortPersianDateTimeString().ToPersianNumbers(),
                 AuthorFriendlyName = post.Author.FriendlyName,
                 AuthorUserName = post.Author.UserName,
                 AuthorAvatar = post.Author.AvatarName,
