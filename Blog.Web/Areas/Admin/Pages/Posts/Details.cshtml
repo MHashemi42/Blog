@@ -1,0 +1,85 @@
+﻿@page "{postId:int}"
+@model Blog.Web.Areas.Admin.Pages.Posts.DetailsModel
+@{
+    ViewData["Title"] = "جزئیات پست";
+}
+@section Links
+{
+    <link href="~/lib/ckeditor/css/ckeditor.css" rel="stylesheet" asp-append-version="true" />
+}
+
+<div class="d-flex justify-content-between">
+    <h1 class="d-inline-block">@ViewData["Title"]</h1>
+    <a asp-controller="Post" asp-action="Edit"
+       asp-route-id="@Model.Post.Id"
+       class="btn btn-warning align-self-center">ویرایش</a>
+</div>
+<ul class="list-group">
+    <li class="list-group-item">
+        شناسه پست: @Model.Post.Id
+    </li>
+    <li class="list-group-item">
+        عنوان: @Model.Post.Title
+    </li>
+    <li class="list-group-item">
+        اسلاگ: @Model.Post.Slug
+    </li>
+    <li class="list-group-item">
+        توضیحات: @Model.Post.Description
+    </li>
+    <li class="list-group-item">
+        تاریخ ایجاد: @Model.Post.CreatedDate.ToShortPersianDateTimeString().ToPersianNumbers()
+    </li>
+    <li class="list-group-item">
+        تاریخ آخرین ویرایش: @(Model.Post.ModifiedDate?.ToShortPersianDateTimeString().ToPersianNumbers() ?? "ندارد")
+    </li>
+    <li class="list-group-item">
+        نویسنده:
+        <a asp-controller="Account" asp-action="Profile"
+           asp-route-username="@Model.Post.Author.UserName">@Model.Post.Author.UserName</a>
+    </li>
+    <li class="list-group-item">
+        آخرین ویرایش کننده:
+        @if (Model.Post.Modifier is object)
+        {
+            <a asp-controller="Account" asp-action="Profile"
+               asp-route-username="@Model.Post.Modifier.UserName">@Model.Post.Modifier.UserName</a>
+        }
+        else
+        {
+            <p>ندارد</p>
+        }
+    </li>
+    <li class="list-group-item">
+        برجسب ها:
+        <partial name="_LabelList" model="Model.Post.Labels" />
+    </li>
+    <li class="list-group-item">
+        تعداد دیدگاه ها: @Model.Post.Comments.Count
+    </li>
+    <li class="list-group-item">
+        تعداد بازدید ها: @Model.Post.Views.Count
+    </li>
+    <li class="list-group-item">
+        قابل بازدید: @Model.Post.IsHidden
+    </li>
+    <li class="list-group-item">
+        <div class="accordion" id="accordionExample">
+            <div class="card">
+                <div class="card-header" id="headingOne">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link btn-block" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                            متن پست
+                        </button>
+                    </h2>
+                </div>
+
+                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                    <div class="card-body">
+                        <div class="ck-content" dir="rtl">@Html.Raw(Model.Post.Body)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+</ul>

@@ -1,0 +1,49 @@
+﻿@page
+@model Blog.Web.Areas.Admin.Pages.Posts.IndexModel
+@{
+    ViewData["Title"] = "پست ها";
+}
+
+<h1>@ViewData["Title"]</h1>
+<form method="get">
+    <div class="my-4">
+        <div class="form-row align-items-center">
+            <div class="col-5">
+                <input class="form-control" asp-for="Parameters.Query" name="q"/>
+            </div>
+            <div class="col-auto">
+                <button class="btn btn-outline-success" type="submit">جستجو</button>
+            </div>
+            <div class="col-auto">
+                <a class="btn btn-primary" asp-page="Create">ساخت پست</a>
+            </div>
+        </div>
+    </div>
+</form>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>شناسه پست</th>
+            <th>عنوان</th>
+            <th>تاریخ ایجاد</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var post in Model.PostSummaries)
+        {
+            <tr>
+                <td>@post.Id</td>
+                <td>@post.Title</td>
+                <td>@post.CreatedDate.ToShortPersianDateTimeString().ToPersianNumbers()</td>
+                <td>
+                    <a class="btn btn-info" asp-page="Details"
+                       asp-route-postId="@post.Id">جزئیات بیشتر</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<vc:pagination has-previous="@Model.PostSummaries.HasPrevious"
+               has-next="@Model.PostSummaries.HasNext"
+               current-page="@Model.PostSummaries.CurrentPage"></vc:pagination>
