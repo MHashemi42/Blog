@@ -89,6 +89,12 @@ namespace Blog.Data.Repositories
                 posts = posts.Where(p => p.Labels.Any(x => x.Slug == labelSlug));
             }
 
+            if (string.IsNullOrWhiteSpace(parameters.Query) is false)
+            {
+                posts = posts.Where(p => p.Title.Contains(parameters.Query) ||
+                    p.Id.ToString().Equals(parameters.Query));
+            }
+
             IQueryable<PostSummary> source = posts
             .Select(p => new PostSummary
             {
